@@ -17,41 +17,44 @@ import java.util.List;
 @RestController
 @RequestMapping("api/v1")
 @CrossOrigin
-public class AppointmentController {
+public class AppointmentsController {
     @Autowired
-    private AppointmentService appointmentService;
+    private final AppointmentService appointmentService;
 
     @Autowired
-    private AppointmentMapper appointmentMapper;
-
+    private final AppointmentMapper mapper;
+    public AppointmentsController(AppointmentService appointmentService, AppointmentMapper mapper){
+        this.appointmentService = appointmentService;
+        this.mapper = mapper;
+    }
     @Operation(summary = "Get All Appointments", description = "Get All Appointments")
     @GetMapping("appointments")
     public List<AppointmentResource> getAll(){
-        return appointmentMapper.toResource(appointmentService.getAll());
+        return mapper.toResource(appointmentService.getAll());
     }
 
     @Operation(summary = "Get Appointment by Id", description = "Get Appointment by Id")
     @GetMapping("appointments/{appointmentId}")
     public AppointmentResource getAppointmentById(@PathVariable Long appointmentId){
-        return appointmentMapper.toResource(appointmentService.getById(appointmentId));
+        return mapper.toResource(appointmentService.getById(appointmentId));
     }
 
     @Operation(summary = "Get Appointments by ClientId", description = "Get All Appointments by ClientId")
     @GetMapping("clients/{clientId}/appointments")
     public List<AppointmentResource> getAppointmentsByClientId(@PathVariable Long clientId){
-        return appointmentMapper.toResource(appointmentService.getByClientId(clientId));
+        return mapper.toResource(appointmentService.getByClientId(clientId));
     }
 
     @Operation(summary = "Create New Appointment", description = "Create New Appointment")
     @PostMapping("clients/{clientId}/applianceModel/{applianceModelId}/appointments")
     public AppointmentResource createAppointment(@RequestBody CreateAppointmentResource model, @PathVariable Long clientId, @PathVariable Long applianceModelId){
-        return appointmentMapper.toResource(appointmentService.create(appointmentMapper.toModel(model), clientId, applianceModelId));
+        return mapper.toResource(appointmentService.create(mapper.toModel(model), clientId, applianceModelId));
     }
 
     @Operation(summary = "Update Appointment", description = "Update Appointment")
     @PutMapping("appointments/{appointmentId}")
     public AppointmentResource updateAppointment(@PathVariable Long appointmentId, @RequestBody UpdateAppointmentResource model){
-        return appointmentMapper.toResource(appointmentService.update(appointmentId, appointmentMapper.toModel(model)));
+        return mapper.toResource(appointmentService.update(appointmentId, mapper.toModel(model)));
     }
 
     @Operation(summary = "Delete Appointment", description = "Delete Appointment")
