@@ -3,11 +3,16 @@ package com.acme.webserviceslinerepair.appointment.service;
 import com.acme.webserviceslinerepair.appointment.domain.model.entity.Appointment;
 import com.acme.webserviceslinerepair.appointment.domain.persistence.AppointmentRepository;
 import com.acme.webserviceslinerepair.appointment.domain.service.AppointmentService;
+import com.acme.webserviceslinerepair.client.domain.persistence.ClientRepository;
 import com.acme.webserviceslinerepair.shared.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public class AppointmentServiceImpl implements AppointmentService {
     private final static String ENTITY = "Appointment";
     private final static String ENTITY2 = "Client";
@@ -59,12 +64,12 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public Appointment delete(Long appointmentId) {
-        return appointmentRepository.findById(appointmentId)
-                .map(appointment -> {
-                    appointmentRepository.delete(appointment);
-                    return appointment;
-                }).orElseThrow(()-> new ResourceNotFoundException(ENTITY, appointmentId));
+    public ResponseEntity<?> delete(Long appointmentId) {
+        return appointmentRepository.findById(appointmentId).map(appointment -> {
+            appointmentRepository.delete(appointment);
+                    return ResponseEntity.ok().build();
+                }
+        ).orElseThrow(() -> new ResourceNotFoundException(ENTITY, appointmentId));
     }
 
     @Override
@@ -74,6 +79,11 @@ public class AppointmentServiceImpl implements AppointmentService {
             throw new ResourceNotFoundException(ENTITY2, clientId);
 
         return appointmentRepository.findByClientId(clientId);
+    }
+
+    @Override
+    public Page<Appointment> getAllByClientId(Long clientId, Pageable pageable) {
+        return null;
     }
 
 }
