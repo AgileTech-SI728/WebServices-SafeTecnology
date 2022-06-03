@@ -8,6 +8,7 @@ import com.acme.webserviceslinerepair.appointment.resource.UpdateAppointmentReso
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -55,10 +56,8 @@ public class AppointmentController {
 
     @Operation(summary = "Delete Appointment", description = "Delete Appointment")
     @DeleteMapping("{appointmentId}")
-    public void deleteAppointment(@PathVariable Long appointmentId){
-        appointmentService.delete(appointmentId);
+    public ResponseEntity<?> deleteAppointment(@PathVariable Long appointmentId){
+        return appointmentService.delete(appointmentId);
     }
-
-
 
 }
