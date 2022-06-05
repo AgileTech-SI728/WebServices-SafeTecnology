@@ -1,10 +1,13 @@
 package com.acme.webserviceslinerepair.client.resource;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Getter
+
 @Setter
+@Getter
+@With
+@NoArgsConstructor
+@AllArgsConstructor
 public class ClientResource {
     private Long id;
     private String names;
