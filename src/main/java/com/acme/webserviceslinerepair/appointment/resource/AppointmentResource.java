@@ -1,10 +1,15 @@
 package com.acme.webserviceslinerepair.appointment.resource;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.acme.webserviceslinerepair.applianceModel.resource.ApplianceModelResource;
+import com.acme.webserviceslinerepair.client.resource.ClientResource;
+import lombok.*;
 
-@Getter
+
 @Setter
+@Getter
+@With
+@NoArgsConstructor
+@AllArgsConstructor
 public class AppointmentResource {
     private Long id;
     private String dateReserve;
