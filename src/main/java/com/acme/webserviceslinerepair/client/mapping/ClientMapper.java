@@ -1,9 +1,5 @@
 package com.acme.webserviceslinerepair.client.mapping;
 
-import com.acme.webserviceslinerepair.appointment.domain.model.entity.Appointment;
-import com.acme.webserviceslinerepair.appointment.resource.AppointmentResource;
-import com.acme.webserviceslinerepair.appointment.resource.CreateAppointmentResource;
-import com.acme.webserviceslinerepair.appointment.resource.UpdateAppointmentResource;
 import com.acme.webserviceslinerepair.client.domain.model.entity.Client;
 import com.acme.webserviceslinerepair.client.resource.ClientResource;
 import com.acme.webserviceslinerepair.client.resource.CreateClientResource;
@@ -21,7 +17,6 @@ public class ClientMapper implements Serializable {
     @Autowired
     private EnhancedModelMapper mapper;
 
-    //Object Mapping
     public ClientResource toResource(Client model){
         return mapper.map(model, ClientResource.class);
     }
