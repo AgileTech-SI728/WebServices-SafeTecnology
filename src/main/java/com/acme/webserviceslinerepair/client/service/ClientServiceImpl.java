@@ -6,31 +6,29 @@ import com.acme.webserviceslinerepair.client.domain.service.ClientService;
 import com.acme.webserviceslinerepair.shared.exception.ResourceNotFoundException;
 import com.acme.webserviceslinerepair.shared.exception.ResourceValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import java.util.List;
 import java.util.Set;
 
+@Service
 public class ClientServiceImpl implements ClientService {
     private final static String ENTITY = "Client";
-
     @Autowired
-    private ClientRepository clientRepository;
-
+    private final ClientRepository clientRepository;
     @Autowired
-    private Validator validator;
+    private final Validator validator;
+
+    public ClientServiceImpl(ClientRepository clientRepository, Validator validator) {
+        this.clientRepository = clientRepository;
+        this.validator = validator;
+    }
 
     @Override
     public List<Client> getAll(){return clientRepository.findAll();}
-
-    @Override
-    public Page<Client> getAll(Pageable pageable) {
-        return clientRepository.findAll(pageable);
-    }
 
     @Override
     public Client getById(Long clientId){
@@ -52,7 +50,7 @@ public class ClientServiceImpl implements ClientService {
     public Client create(Client request){
         Set<ConstraintViolation<Client>> violations = validator.validate(request);
         if(!violations.isEmpty())
-        throw new ResourceValidationException(ENTITY, violations);
+            throw new ResourceValidationException(ENTITY, violations);
 
         try{
             return clientRepository.save(request);
@@ -66,7 +64,7 @@ public class ClientServiceImpl implements ClientService {
     public Client update(Long clientId, Client request){
         Set<ConstraintViolation<Client>> violations = validator.validate(request);
         if(!violations.isEmpty())
-         throw new ResourceValidationException(ENTITY, violations);
+            throw new ResourceValidationException(ENTITY, violations);
 
         try{
             return clientRepository.findById(clientId)
