@@ -17,9 +17,9 @@ import java.util.Set;
 @Service
 public class ClientServiceImpl implements ClientService {
     private final static String ENTITY = "Client";
-    @Autowired
+
     private final ClientRepository clientRepository;
-    @Autowired
+
     private final Validator validator;
 
     public ClientServiceImpl(ClientRepository clientRepository, Validator validator) {
