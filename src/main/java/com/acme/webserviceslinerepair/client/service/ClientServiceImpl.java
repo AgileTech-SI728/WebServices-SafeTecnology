@@ -16,7 +16,7 @@ import java.util.Set;
 
 @Service
 public class ClientServiceImpl implements ClientService {
-    private final static String ENTITY = "Client";
+    private static final String ENTITY = "Client";
 
     private final ClientRepository clientRepository;
 
@@ -43,7 +43,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public List<Client> getByNameAndLastName(String names, String lastNames){
-        return clientRepository.findByNameAndLastNameContaining(names, lastNames);
+        return clientRepository.findByNamesAndLastNamesContaining(names, lastNames);
     }
 
     @Override
