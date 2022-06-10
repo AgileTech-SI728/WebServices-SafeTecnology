@@ -5,14 +5,18 @@ import com.acme.webserviceslinerepair.client.mapping.ClientMapper;
 import com.acme.webserviceslinerepair.client.resource.ClientResource;
 import com.acme.webserviceslinerepair.client.resource.CreateClientResource;
 import com.acme.webserviceslinerepair.client.resource.UpdateClientResource;
+import com.acme.webserviceslinerepair.technician.resource.TechnicianResource;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @RestController
 @RequestMapping("api/v1/clients")
+@CrossOrigin
 public class ClientsController {
     @Autowired
     private final ClientService clientService;
@@ -34,6 +38,10 @@ public class ClientsController {
     @GetMapping("emails/{email}")
     public ClientResource getClientByEmail(@PathVariable String email){
         return mapper.toResource(clientService.getByEmail(email));
+    }
+    @GetMapping
+    public Page<ClientResource> getAllRents(Pageable pageable) {
+        return mapper.modelListToPage(clientService.getAll(), pageable);
     }
     @Operation(summary = "Get Client by Complete Name", description = "Get Client by Complete Name")
     @GetMapping("names/{names}/lastNames/{lastNames}")
