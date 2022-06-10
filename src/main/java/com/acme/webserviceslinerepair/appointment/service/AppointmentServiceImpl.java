@@ -109,5 +109,4 @@ public class AppointmentServiceImpl implements AppointmentService {
     public Page<Appointment> getAllByClientId(Long clientId, Pageable pageable) {
         return appointmentRepository.findAll(pageable);
     }
-
 }
