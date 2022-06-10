@@ -10,6 +10,8 @@ import com.acme.webserviceslinerepair.client.resource.CreateClientResource;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +19,7 @@ import java.util.List;
 
 @Tag(name = "ApplianceModel")
 @RestController
-@RequestMapping("api/v1")
+@RequestMapping("api/v1/applianceModels")
 @CrossOrigin
 public class ApplianceModelsController {
     @Autowired
@@ -40,7 +42,10 @@ public class ApplianceModelsController {
     public ApplianceModelResource getApplianceModelById(@PathVariable Long applianceModelId){
         return mapper.toResource(applianceModelService.getById(applianceModelId));
     }
-
+    @GetMapping
+    public Page<ApplianceModelResource> getAllRents(Pageable pageable) {
+        return mapper.modelListToPage(applianceModelService.getAll(), pageable);
+    }
     @Operation(summary = "Get ApplianceModels by ClientId", description = "Get All ApplianceModels by ClientId")
     @GetMapping("clients/{clientId}/applianceModels")
     public List<ApplianceModelResource> getApplianceModelsByClientId(@PathVariable Long clientId){
