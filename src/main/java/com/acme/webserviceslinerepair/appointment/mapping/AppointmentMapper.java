@@ -34,7 +34,7 @@ public class AppointmentMapper implements Serializable {
         return mapper.map(resource, Appointment.class);
     }
 
-    public Page<AppointmentResource> modelListPage(List<Appointment> modelList, Pageable pageable){
+    public Page<AppointmentResource> modelListToPage(List<Appointment> modelList, Pageable pageable){
         return new PageImpl<>(mapper.mapList(modelList, AppointmentResource.class), pageable, modelList.size());
     }
 }
