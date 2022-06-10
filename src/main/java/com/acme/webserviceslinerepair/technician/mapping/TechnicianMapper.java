@@ -33,7 +33,7 @@ public class TechnicianMapper implements Serializable {
         return mapper.map(resource, Technician.class);
     }
 
-    public Page<TechnicianResource> modelListPage(List<Technician> modelList, Pageable pageable){
+    public Page<TechnicianResource> modelListToPage(List<Technician> modelList, Pageable pageable){
         return new PageImpl<>(mapper.mapList(modelList, TechnicianResource.class), pageable, modelList.size());
     }
 }

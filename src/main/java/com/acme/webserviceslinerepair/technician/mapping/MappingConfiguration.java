@@ -1,8 +1,9 @@
 package com.acme.webserviceslinerepair.technician.mapping;
 
-import com.acme.webserviceslinerepair.client.mapping.ClientMapper;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
+@Configuration("technicianMappingConfiguration")
 public class MappingConfiguration {
     @Bean
     public TechnicianMapper technicianMapper(){
