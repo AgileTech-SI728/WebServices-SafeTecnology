@@ -34,7 +34,7 @@ public class ApplianceModelMapper implements Serializable {
         return mapper.map(resource, ApplianceModel.class);
     }
 
-    public Page<ApplianceModelResource> modelListPage(List<ApplianceModel> modelList, Pageable pageable){
+    public Page<ApplianceModelResource> modelListToPage(List<ApplianceModel> modelList, Pageable pageable){
         return new PageImpl<>(mapper.mapList(modelList, ApplianceModelResource.class), pageable, modelList.size());
     }
 }
