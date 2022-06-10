@@ -33,7 +33,7 @@ public class ClientMapper implements Serializable {
         return mapper.map(resource, Client.class);
     }
 
-    public Page<ClientResource> modelListPage(List<Client> modelList, Pageable pageable){
+    public Page<ClientResource> modelListToPage(List<Client> modelList, Pageable pageable){
         return new PageImpl<>(mapper.mapList(modelList, ClientResource.class), pageable, modelList.size());
     }
 }
