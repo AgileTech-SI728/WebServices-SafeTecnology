@@ -41,7 +41,7 @@ public class TechnicianServiceImpl implements TechnicianService {
 
     @Override
     public List<Technician> getByNameAndLastName(String names, String lastNames){
-        return technicianRepository.findByNameAndLastNameContaining(names, lastNames);
+        return technicianRepository.findByNamesAndLastNamesContaining(names, lastNames);
     }
 
     @Override
