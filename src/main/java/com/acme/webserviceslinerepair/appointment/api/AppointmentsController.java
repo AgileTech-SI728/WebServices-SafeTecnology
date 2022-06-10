@@ -1,5 +1,6 @@
 package com.acme.webserviceslinerepair.appointment.api;
 
+import com.acme.webserviceslinerepair.applianceModel.resource.ApplianceModelResource;
 import com.acme.webserviceslinerepair.appointment.domain.service.AppointmentService;
 import com.acme.webserviceslinerepair.appointment.mapping.AppointmentMapper;
 import com.acme.webserviceslinerepair.appointment.resource.AppointmentResource;
@@ -8,6 +9,8 @@ import com.acme.webserviceslinerepair.appointment.resource.UpdateAppointmentReso
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,7 +41,10 @@ public class AppointmentsController {
     public AppointmentResource getAppointmentById(@PathVariable Long appointmentId){
         return mapper.toResource(appointmentService.getById(appointmentId));
     }
-
+    @GetMapping
+    public Page<AppointmentResource> getAllRents(Pageable pageable) {
+        return mapper.modelListToPage(appointmentService.getAll(), pageable);
+    }
     @Operation(summary = "Get Appointments by ClientId", description = "Get All Appointments by ClientId")
     @GetMapping("clients/{clientId}/appointments")
     public List<AppointmentResource> getAppointmentsByClientId(@PathVariable Long clientId){
