@@ -8,6 +8,8 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -23,18 +25,22 @@ public class Report extends AuditModel {
 
     @NotNull
     @NotBlank
+    @Size(max=600)
     private String observation;
 
     @NotNull
     @NotBlank
+    @Size(max=700)
     private String diagnosis;
 
     @NotNull
     @NotBlank
+    @Size(max=700)
     private String repairDescription;
 
     @NotNull
     @NotBlank
+    @Size(max=40)
     private String date;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
