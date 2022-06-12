@@ -5,8 +5,12 @@ import com.acme.webserviceslinerepair.client.mapping.ClientMapper;
 import com.acme.webserviceslinerepair.client.resource.ClientResource;
 import com.acme.webserviceslinerepair.client.resource.CreateClientResource;
 import com.acme.webserviceslinerepair.client.resource.UpdateClientResource;
-import com.acme.webserviceslinerepair.technician.resource.TechnicianResource;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+@Tag(name = "Client")
 @RestController
 @RequestMapping("api/v1/clients")
 @CrossOrigin
@@ -30,18 +35,19 @@ public class ClientsController {
 
 
     @Operation(summary = "Get All Clients", description = "Get All Clients")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Clients found",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ClientResource.class))})
+    })
     @GetMapping("clients")
     public List<ClientResource> getAll(){
         return mapper.toResource(clientService.getAll());
     }
     @Operation(summary = "Get Client by Email", description = "Get Client by Email")
-    @GetMapping("emails/{email}")
+    @GetMapping("{email}")
     public ClientResource getClientByEmail(@PathVariable String email){
         return mapper.toResource(clientService.getByEmail(email));
-    }
-    @GetMapping
-    public Page<ClientResource> getAllRents(Pageable pageable) {
-        return mapper.modelListToPage(clientService.getAll(), pageable);
     }
     @Operation(summary = "Get Client by Complete Name", description = "Get Client by Complete Name")
     @GetMapping("names/{names}/lastNames/{lastNames}")
@@ -49,19 +55,20 @@ public class ClientsController {
         return mapper.toResource(clientService.getByNameAndLastName(names, lastNames));
     }
     @Operation(summary = "Get Client by Id", description = "Get Client by Id")
-    @GetMapping("clients/{clientId}")
+    @GetMapping("{clientId}")
     public ClientResource getClientById(@PathVariable Long clientId){
         return mapper.toResource(clientService.getById(clientId));
     }
     @Operation(summary = "Create New Client", description = "Create New Client")
-    @PostMapping("clients")
-    public ClientResource createClient(@RequestBody CreateClientResource resource){
+    @PostMapping
+    public ClientResource createClient(@RequestBody CreateClientResource resource) {
         return mapper.toResource(clientService.create(mapper.toModel(resource)));
     }
     @Operation(summary = "Update Client", description = "Update Client")
-    @PutMapping("clients/{clientId}")
-    public ClientResource updateClient(@PathVariable Long clientId, @RequestBody UpdateClientResource model){
-        return mapper.toResource(clientService.update(clientId, mapper.toModel(model)));
+    @PutMapping("{clientId}")
+    public ClientResource updateClient(@PathVariable Long clientId,
+                                                   @RequestBody UpdateClientResource resource){
+        return mapper.toResource(clientService.update(clientId, mapper.toModel(resource)));
     }
 
     @Operation(summary = "Delete Client", description = "Delete Client")
