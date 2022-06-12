@@ -5,6 +5,8 @@ import com.acme.webserviceslinerepair.shared.exception.ResourceValidationExcepti
 import com.acme.webserviceslinerepair.technician.domain.model.entity.Technician;
 import com.acme.webserviceslinerepair.technician.domain.persistence.TechnicianRepository;
 import com.acme.webserviceslinerepair.technician.domain.service.TechnicianService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +34,11 @@ public class TechnicianServiceImpl implements TechnicianService {
     public Technician getById(Long technicianId){
         return technicianRepository.findById(technicianId)
                 .orElseThrow(()-> new ResourceNotFoundException(ENTITY, technicianId));
+    }
+
+    @Override
+    public Page<Technician> getAll(Pageable pageable) {
+        return technicianRepository.findAll(pageable);
     }
 
     @Override
