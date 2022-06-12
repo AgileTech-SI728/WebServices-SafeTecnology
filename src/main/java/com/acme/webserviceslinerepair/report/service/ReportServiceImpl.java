@@ -1,6 +1,5 @@
 package com.acme.webserviceslinerepair.report.service;
 
-import com.acme.webserviceslinerepair.applianceModel.domain.model.entity.ApplianceModel;
 import com.acme.webserviceslinerepair.report.domain.model.entity.Report;
 import com.acme.webserviceslinerepair.report.domain.persistence.ReportRepository;
 import com.acme.webserviceslinerepair.report.domain.service.ReportService;
@@ -8,6 +7,8 @@ import com.acme.webserviceslinerepair.shared.exception.ResourceNotFoundException
 import com.acme.webserviceslinerepair.shared.exception.ResourceValidationException;
 import com.acme.webserviceslinerepair.technician.domain.persistence.TechnicianRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -43,6 +44,11 @@ public class ReportServiceImpl implements ReportService {
     public Report getById(Long reportId){
         return reportRepository.findById(reportId)
                 .orElseThrow(()-> new ResourceNotFoundException(ENTITY, reportId));
+    }
+
+    @Override
+    public Page<Report> getAll(Pageable pageable) {
+        return reportRepository.findAll(pageable);
     }
 
     @Override
