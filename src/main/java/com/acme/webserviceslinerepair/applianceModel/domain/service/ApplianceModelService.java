@@ -11,6 +11,7 @@ import java.util.List;
 public interface ApplianceModelService {
     List<ApplianceModel> getAll();
     Page<ApplianceModel> getAllByClientId(Long clientId, Pageable pageable);
+    Page<ApplianceModel> getAll(Pageable pageable);
     ApplianceModel getById(Long applianceModelId);
     ApplianceModel create(ApplianceModel applianceModel, Long clientId);
     ApplianceModel update(Long applianceModelId, ApplianceModel applianceModel);
