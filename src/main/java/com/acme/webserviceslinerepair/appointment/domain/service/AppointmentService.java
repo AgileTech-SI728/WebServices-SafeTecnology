@@ -10,6 +10,7 @@ import java.util.List;
 public interface AppointmentService {
     List<Appointment> getAll();
     Appointment getById(Long appointmentId);
+    Page<Appointment> getAll(Pageable pageable);
     Appointment create(Appointment appointment, Long clientId, Long applianceModelId);
     Appointment update(Long appointmentId, Appointment appointment);
     ResponseEntity<?> delete(Long appointmentId);
