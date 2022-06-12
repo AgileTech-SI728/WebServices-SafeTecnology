@@ -6,7 +6,6 @@ import com.acme.webserviceslinerepair.applianceModel.domain.service.ApplianceMod
 import com.acme.webserviceslinerepair.client.domain.persistence.ClientRepository;
 import com.acme.webserviceslinerepair.shared.exception.ResourceNotFoundException;
 import com.acme.webserviceslinerepair.shared.exception.ResourceValidationException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -21,11 +20,11 @@ import java.util.Set;
 public class ApplianceModelServiceImpl implements ApplianceModelService {
     private final static String ENTITY = "ApplianceModel";
     private final static String ENTITY2 = "Client";
-    @Autowired
+
     private final Validator validator;
-    @Autowired
+
     private final ApplianceModelRepository applianceModelRepository;
-    @Autowired
+
     private final ClientRepository clientRepository;
     public ApplianceModelServiceImpl(Validator validator, ClientRepository clientRepository, ApplianceModelRepository applianceModelRepository) {
         this.validator = validator;
@@ -98,6 +97,11 @@ public class ApplianceModelServiceImpl implements ApplianceModelService {
     }
     @Override
     public Page<ApplianceModel> getAllByClientId(Long clientId, Pageable pageable) {
+        return applianceModelRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<ApplianceModel> getAll(Pageable pageable) {
         return applianceModelRepository.findAll(pageable);
     }
 
