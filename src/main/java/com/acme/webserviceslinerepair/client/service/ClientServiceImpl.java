@@ -5,7 +5,8 @@ import com.acme.webserviceslinerepair.client.domain.persistence.ClientRepository
 import com.acme.webserviceslinerepair.client.domain.service.ClientService;
 import com.acme.webserviceslinerepair.shared.exception.ResourceNotFoundException;
 import com.acme.webserviceslinerepair.shared.exception.ResourceValidationException;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +38,11 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    public Page<Client> getAll(Pageable pageable) {
+        return clientRepository.findAll(pageable);
+    }
+
+    @Override
     public Client getByEmail(String email){
         return clientRepository.findByEmail(email);
     }
@@ -47,19 +53,20 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Client create(Client request){
-        Set<ConstraintViolation<Client>> violations = validator.validate(request);
-        if(!violations.isEmpty())
+    public Client create(Client client) {
+        Set<ConstraintViolation<Client>> violations = validator.validate(client);
+
+        if (!violations.isEmpty())
             throw new ResourceValidationException(ENTITY, violations);
 
+
         try{
-            return clientRepository.save(request);
+            return clientRepository.save(client);
         }
         catch (Exception e){
             throw new ResourceValidationException(ENTITY, "An error occurred while saving client");
         }
     }
-
     @Override
     public Client update(Long clientId, Client request){
         Set<ConstraintViolation<Client>> violations = validator.validate(request);
