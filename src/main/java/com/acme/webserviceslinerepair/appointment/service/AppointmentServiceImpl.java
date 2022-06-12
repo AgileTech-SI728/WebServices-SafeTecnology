@@ -53,6 +53,11 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
+    public Page<Appointment> getAll(Pageable pageable) {
+        return appointmentRepository.findAll(pageable);
+    }
+
+    @Override
     public Appointment create(Appointment request, Long clientId, Long applianceModelId) {
         Set<ConstraintViolation<Appointment>> violations = validator.validate(request);
 
