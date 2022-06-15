@@ -6,6 +6,7 @@ import com.acme.webserviceslinerepair.report.domain.service.ReportService;
 import com.acme.webserviceslinerepair.shared.exception.ResourceNotFoundException;
 import com.acme.webserviceslinerepair.shared.exception.ResourceValidationException;
 import com.acme.webserviceslinerepair.technician.domain.persistence.TechnicianRepository;
+import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -54,7 +55,7 @@ public class ReportServiceImpl implements ReportService {
     @Override
     public List<Report> getByTechnicianId(Long technicianId){
         var technician = technicianRepository.findById(technicianId);
-        if(technician.isEmpty())
+        if(technician==null)
             throw new ResourceNotFoundException(ENTITY2, technicianId);
 
         return reportRepository.findByTechnicianId(technicianId);
@@ -67,7 +68,7 @@ public class ReportServiceImpl implements ReportService {
             throw new ResourceValidationException(ENTITY, violations);
 
         var technician = technicianRepository.findById(technicianId);
-        if(technician.isEmpty())
+        if(technician==null)
             throw new ResourceNotFoundException(ENTITY2, technicianId);
 
         try{

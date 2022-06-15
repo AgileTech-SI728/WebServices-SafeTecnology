@@ -50,7 +50,7 @@ public class ApplianceModelServiceImpl implements ApplianceModelService {
             throw new ResourceValidationException(ENTITY, violations);
 
         var client = clientRepository.findById(clientId);
-        if(client.isEmpty())
+        if(client==null)
             throw new ResourceNotFoundException(ENTITY2, clientId);
 
         request.setClient(client.get());
@@ -91,7 +91,7 @@ public class ApplianceModelServiceImpl implements ApplianceModelService {
     @Override
     public List<ApplianceModel> getByClientId(Long applianceModelId) {
         var client = clientRepository.findById(applianceModelId);
-        if(client.isEmpty())
+        if(client==null)
             throw new ResourceNotFoundException(ENTITY2, applianceModelId);
 
         return applianceModelRepository.findByClientId(applianceModelId);

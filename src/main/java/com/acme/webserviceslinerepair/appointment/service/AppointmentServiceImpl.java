@@ -7,6 +7,7 @@ import com.acme.webserviceslinerepair.appointment.domain.service.AppointmentServ
 import com.acme.webserviceslinerepair.client.domain.persistence.ClientRepository;
 import com.acme.webserviceslinerepair.shared.exception.ResourceNotFoundException;
 import com.acme.webserviceslinerepair.shared.exception.ResourceValidationException;
+import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -65,11 +66,11 @@ public class AppointmentServiceImpl implements AppointmentService {
             throw new ResourceValidationException(ENTITY, violations);
 
         var client = clientRepository.findById(clientId);
-        if(client.isEmpty())
+        if(client==null)
             throw new ResourceNotFoundException(ENTITY2, clientId);
 
         var applianceModel = applianceModelRepository.findById(applianceModelId);
-        if(applianceModel.isEmpty())
+        if(applianceModel==null)
             throw new ResourceNotFoundException(ENTITY3, applianceModelId);
 
         request.setClient(client.get());
@@ -104,7 +105,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public List<Appointment> getByClientId(Long clientId) {
         var client = clientRepository.findById(clientId);
-        if(client.isEmpty())
+        if(client==null)
             throw new ResourceNotFoundException(ENTITY2, clientId);
 
         return appointmentRepository.findByClientId(clientId);
