@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @With
 @Entity
-@Table(name = "appointment")
+@Table(name = "appointments")
 public class Appointment extends AuditModel {
 
     @Id
@@ -40,8 +40,8 @@ public class Appointment extends AuditModel {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Client client;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "applianceModel_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "appliance_model_id", nullable = false)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private ApplianceModel applianceModel;
 
