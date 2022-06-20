@@ -23,9 +23,9 @@ import java.util.List;
 @RequestMapping("api/v1/technicians")
 @CrossOrigin
 public class TechniciansController {
-    @Autowired
+
     private final TechnicianService technicianService;
-    @Autowired
+
     private final TechnicianMapper mapper;
 
     public TechniciansController(TechnicianService technicianService, TechnicianMapper mapper) {
@@ -43,11 +43,7 @@ public class TechniciansController {
     public List<TechnicianResource> getAll(){
         return mapper.toResource(technicianService.getAll());
     }
-    @Operation(summary = "Get Technician by Email", description = "Get Technician by Email")
-    @GetMapping("{email}")
-    public TechnicianResource getTechnicianByEmail(@PathVariable String email){
-        return mapper.toResource(technicianService.getByEmail(email));
-    }
+
     @Operation(summary = "Get Technician by Complete Name", description = "Get Technician by Complete Name")
     @GetMapping("{names}/{lastNames}")
     public List<TechnicianResource> getTechnicianByNameAndLastName(@PathVariable String names, @PathVariable String lastNames){

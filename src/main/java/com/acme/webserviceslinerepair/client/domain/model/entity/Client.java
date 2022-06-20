@@ -23,28 +23,28 @@ public class Client extends AuditModel {
 
     @NotNull
     @NotBlank
-    @Size(max=50)
+    @Size(max=100)
     private String names;
 
     @NotNull
     @NotBlank
-    @Size(max=50)
+    @Size(max=100)
     private String lastNames;
 
     @NotNull
     @NotBlank
-    @Size(max=50)
+    @Size(max=100)
     private String address;
 
     @NotNull
     @NotBlank
-    @Size(max=50)
+    @Size(max=100)
     @Email
     private String email;
 
     @NotNull
     @NotBlank
-    @Size(min=5,max=20)
+    @Size(min=5,max=100)
     private String password;
 
     @NotNull
@@ -54,6 +54,6 @@ public class Client extends AuditModel {
 
     @NotNull
     @NotBlank
-    @Size(max=10)
+    @Size(max=20)
     private String planType;
 }

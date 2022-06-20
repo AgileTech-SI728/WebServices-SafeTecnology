@@ -7,7 +7,6 @@ import com.acme.webserviceslinerepair.appointment.domain.service.AppointmentServ
 import com.acme.webserviceslinerepair.client.domain.persistence.ClientRepository;
 import com.acme.webserviceslinerepair.shared.exception.ResourceNotFoundException;
 import com.acme.webserviceslinerepair.shared.exception.ResourceValidationException;
-import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

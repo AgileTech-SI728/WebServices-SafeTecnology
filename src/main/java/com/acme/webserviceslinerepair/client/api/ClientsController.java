@@ -23,9 +23,9 @@ import java.util.List;
 @RequestMapping("api/v1/clients")
 @CrossOrigin
 public class ClientsController {
-    @Autowired
+
     private final ClientService clientService;
-    @Autowired
+
     private final ClientMapper mapper;
 
     public ClientsController(ClientService clientService, ClientMapper mapper) {
@@ -44,21 +44,23 @@ public class ClientsController {
     public List<ClientResource> getAll(){
         return mapper.toResource(clientService.getAll());
     }
-    @Operation(summary = "Get Client by Email", description = "Get Client by Email")
-    @GetMapping("{email}")
-    public ClientResource getClientByEmail(@PathVariable String email){
-        return mapper.toResource(clientService.getByEmail(email));
-    }
+
     @Operation(summary = "Get Client by Complete Name", description = "Get Client by Complete Name")
     @GetMapping("names/{names}/lastNames/{lastNames}")
     public List<ClientResource> getClientByNameAndLastName(@PathVariable String names, @PathVariable String lastNames){
         return mapper.toResource(clientService.getByNameAndLastName(names, lastNames));
+    }
+    @Operation(summary = "Get Client by Email", description = "Get Client by Email")
+    @GetMapping("clients/{email}")
+    public ClientResource getClientByEmail(@PathVariable String email){
+        return mapper.toResource(clientService.getByEmail(email));
     }
     @Operation(summary = "Get Client by Id", description = "Get Client by Id")
     @GetMapping("{clientId}")
     public ClientResource getClientById(@PathVariable Long clientId){
         return mapper.toResource(clientService.getById(clientId));
     }
+
     @Operation(summary = "Create New Client", description = "Create New Client")
     @PostMapping
     public ClientResource createClient(@RequestBody CreateClientResource resource) {
