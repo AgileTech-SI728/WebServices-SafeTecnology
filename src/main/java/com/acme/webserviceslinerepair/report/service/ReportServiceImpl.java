@@ -6,6 +6,7 @@ import com.acme.webserviceslinerepair.report.domain.service.ReportService;
 import com.acme.webserviceslinerepair.shared.exception.ResourceNotFoundException;
 import com.acme.webserviceslinerepair.shared.exception.ResourceValidationException;
 import com.acme.webserviceslinerepair.technician.domain.persistence.TechnicianRepository;
+import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

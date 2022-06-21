@@ -6,6 +6,7 @@ import com.acme.webserviceslinerepair.applianceModel.domain.service.ApplianceMod
 import com.acme.webserviceslinerepair.client.domain.persistence.ClientRepository;
 import com.acme.webserviceslinerepair.shared.exception.ResourceNotFoundException;
 import com.acme.webserviceslinerepair.shared.exception.ResourceValidationException;
+import lombok.var;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
