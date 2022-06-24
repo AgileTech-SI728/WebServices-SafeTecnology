@@ -44,12 +44,12 @@ public class Client extends AuditModel {
 
     @NotNull
     @NotBlank
-    @Size(min=5,max=100)
+    @Size(max=100)
     private String password;
 
     @NotNull
     @NotBlank
-    @Size(max=9)
+    @Size(max=13)
     private String cellPhoneNumber;
 
     @NotNull
