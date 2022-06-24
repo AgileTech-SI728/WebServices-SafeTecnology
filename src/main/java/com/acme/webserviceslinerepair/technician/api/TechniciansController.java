@@ -6,18 +6,15 @@ import com.acme.webserviceslinerepair.technician.resource.CreateTechnicianResour
 import com.acme.webserviceslinerepair.technician.resource.TechnicianResource;
 import com.acme.webserviceslinerepair.technician.resource.UpdateTechnicianResource;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+@SecurityRequirement(name = "acme")
 @Tag(name = "Technician")
 @RestController
 @RequestMapping("api/v1/technicians")
@@ -34,39 +31,40 @@ public class TechniciansController {
     }
 
     @Operation(summary = "Get All Technicians", description = "Get All Technicians")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Technicians found",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = TechnicianResource.class))})
-    })
     @GetMapping("technicians")
+    @PreAuthorize("hasRole('USER') or hasRole('INSTRUCTOR') or hasRole('ADMIN')")
     public List<TechnicianResource> getAll(){
         return mapper.toResource(technicianService.getAll());
     }
 
     @Operation(summary = "Get Technician by Complete Name", description = "Get Technician by Complete Name")
     @GetMapping("{names}/{lastNames}")
+    @PreAuthorize("hasRole('USER') or hasRole('INSTRUCTOR') or hasRole('ADMIN')")
     public List<TechnicianResource> getTechnicianByNameAndLastName(@PathVariable String names, @PathVariable String lastNames){
         return mapper.toResource(technicianService.getByNameAndLastName(names, lastNames));
     }
     @Operation(summary = "Get Technician by Id", description = "Get Technician by Id")
     @GetMapping("{technicianId}")
+    @PreAuthorize("hasRole('USER') or hasRole('INSTRUCTOR') or hasRole('ADMIN')")
     public TechnicianResource getTechnicianById(@PathVariable Long technicianId){
         return mapper.toResource(technicianService.getById(technicianId));
     }
     @Operation(summary = "Create New Technician", description = "Create New Technician")
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public TechnicianResource createTechnician(@RequestBody CreateTechnicianResource resource){
         return mapper.toResource(technicianService.create(mapper.toModel(resource)));
     }
     @Operation(summary = "Update Technician", description = "Update Technician")
     @PutMapping("{technicianId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public TechnicianResource updateTechnician(@PathVariable Long technicianId, @RequestBody UpdateTechnicianResource model){
         return mapper.toResource(technicianService.update(technicianId, mapper.toModel(model)));
     }
 
     @Operation(summary = "Delete Technician", description = "Delete Technician")
     @DeleteMapping("{technicianId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> deleteTechnician(@PathVariable Long technicianId){
         return technicianService.delete(technicianId);
     }
