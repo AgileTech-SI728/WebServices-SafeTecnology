@@ -6,10 +6,6 @@ import com.acme.webserviceslinerepair.security.domain.service.communication.Regi
 import com.acme.webserviceslinerepair.security.mapping.UserMapper;
 import com.acme.webserviceslinerepair.security.resource.UserResource;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
@@ -21,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @SecurityRequirement(name = "acme")
-@Tag(name="Users", description = "Create, read, update and delete users")
+@Tag(name="Users")
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/v1/users")
@@ -37,41 +33,19 @@ public class UserController {
     }
 
     @Operation(summary = "Login User", description = "Login User", tags = {"Users"})
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "User logged",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = UserResource.class)
-                    ))
-    })
     @PostMapping("/auth/sign-in")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody AuthenticateRequest request) {
         return userService.authenticate(request);
     }
 
     @Operation(summary = "Create User", description = "Create User", tags = {"Users"})
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "User created",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = UserResource.class)
-                    ))
-    })
     @PostMapping("/auth/sign-up")
     public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterRequest request) {
         return userService.register(request);
     }
 
     @Operation(summary = "Get All Users", description = "Get All Users", tags = {"Users"})
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "User returned",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = UserResource.class)
-                    ))
-    })
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> getAllUsers(Pageable pageable) {
         Page<UserResource> resources = mapper.modelListToPage(userService.getAll(), pageable);
         return ResponseEntity.ok(resources);

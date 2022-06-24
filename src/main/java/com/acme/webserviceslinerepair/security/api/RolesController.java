@@ -36,13 +36,6 @@ public class RolesController {
     }
 
     @Operation(summary = "Get All Roles", description = "Get All Roles", tags = {"Roles"})
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Roles returned",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = UserResource.class)
-                    ))
-    })
     @GetMapping
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<?> getAllRoles(Pageable pageable) {

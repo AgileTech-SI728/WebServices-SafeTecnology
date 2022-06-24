@@ -13,9 +13,9 @@ import java.sql.Timestamp;
 @Component
 public class DatabaseSeedingConfig {
     private static final Logger logger = LoggerFactory.getLogger(DatabaseSeedingConfig.class);
-
+    @Autowired
     private RoleService roleService;
-
+    @EventListener
     public void onApplicationReady(ApplicationReadyEvent event){
         String name = event.getApplicationContext().getId();
         logger.info("Starting Database Seeding Process for {} at {}", name,
