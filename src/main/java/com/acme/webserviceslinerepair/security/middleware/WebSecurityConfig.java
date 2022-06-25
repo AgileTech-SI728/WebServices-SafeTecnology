@@ -18,7 +18,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@Deprecated
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     UserService userService;
@@ -27,53 +26,35 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     JwtAuthenticationEntryPoint unauthorizedHandler;
 
     @Bean
-    public JwtAuthorizationFilter authorizationFilter() {
-        return new JwtAuthorizationFilter();
+    public JwtAuthenticationFilter authorizationFilter(){
+        return new JwtAuthenticationFilter();
     }
 
-
     @Override
-    protected void configure(AuthenticationManagerBuilder builder) throws Exception {
-        builder.userDetailsService(userService);
+    public void configure(AuthenticationManagerBuilder builer) throws Exception {
+        builer.userDetailsService(userService);
     }
 
     @Bean
     @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
+    public AuthenticationManager authenticationManagerBean() throws Exception{
         return super.authenticationManagerBean();
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    protected void configure(HttpSecurity http) throws Exception{
         http.cors().and().csrf().disable()
                 .exceptionHandling()
                 .authenticationEntryPoint(unauthorizedHandler).and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().antMatchers(
-                        "/api/v1/users/auth/*")
-                .permitAll();
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and().authorizeRequests().antMatchers("/api/v1/users/auth/*",
+                        "/swagger-ui/**","/api-docs/**").permitAll()
+                .anyRequest().authenticated();
         http.addFilterBefore(authorizationFilter(), UsernamePasswordAuthenticationFilter.class);
-    }
-
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers(
-                "/linerepair-api-docs-ui.html",
-                "/v1/linerepair-api-docs",
-                "/linerepair-api-docs/*",
-                "/linerepair-api-docs",
-                "/swagger-ui/*",
-                "/v2/api-docs",
-                "/configuration/ui",
-                "/swagger-resources/**",
-                "/configuration/security",
-                "/swagger-ui.html",
-                "/webjars/**"
-        );
     }
 }

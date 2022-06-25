@@ -8,13 +8,12 @@ import com.acme.webserviceslinerepair.security.resource.UserResource;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @SecurityRequirement(name = "acme")
 @Tag(name="Users")
@@ -46,8 +45,17 @@ public class UserController {
 
     @Operation(summary = "Get All Users", description = "Get All Users", tags = {"Users"})
     @GetMapping
-    public ResponseEntity<?> getAllUsers(Pageable pageable) {
-        Page<UserResource> resources = mapper.modelListToPage(userService.getAll(), pageable);
-        return ResponseEntity.ok(resources);
+    public List<UserResource> getAllUsers(){
+        return mapper.toResource(userService.getAll());
+    }
+    @RequestMapping("/auth/verify-token-client")
+    @PreAuthorize("hasRole('CLIENT')")
+    public boolean verifyTokenClient(){
+        return true;
+    }
+    @GetMapping("/auth/verify-token-technician")
+    @PreAuthorize("hasRole('TECHNICIAN')")
+    public boolean verifyTokenTechnician(){
+        return true;
     }
 }

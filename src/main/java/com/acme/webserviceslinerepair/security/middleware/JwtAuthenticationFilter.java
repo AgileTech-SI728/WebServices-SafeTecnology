@@ -1,6 +1,6 @@
 package com.acme.webserviceslinerepair.security.middleware;
 
-import com.acme.webserviceslinerepair.security.domain.service.UserService;
+import com.acme.webserviceslinerepair.security.service.UserServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,44 +19,44 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedList;
 
-public class JwtAuthorizationFilter extends OncePerRequestFilter {
-    private static final Logger logger = LoggerFactory.getLogger(JwtAuthorizationFilter.class);
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
+
+    private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
 
     @Autowired
     private JwtHandler handler;
 
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userService;
 
-    private String parseTokenFrom(HttpServletRequest request) {
+    private String parseTokenFrom(HttpServletRequest request){
         String authorizationHeader = request.getHeader("Authorization");
-        if(StringUtils.hasText(authorizationHeader) &&
-                authorizationHeader.startsWith("Bearer"))
+
+        if (StringUtils.hasText(authorizationHeader) && authorizationHeader.startsWith("Bearer")){
             return new LinkedList<>(Arrays.asList(authorizationHeader.split(" "))).getLast();
-        return null;
+        }
+
+        return  null;
+
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        try {
+    protected  void doFilterInternal(HttpServletRequest request,
+                                     HttpServletResponse response,
+                                     FilterChain filterChain) throws ServletException,
+            IOException {
+        try{
             String token = parseTokenFrom(request);
-            if(token != null && handler.validateToken(token)) {
-
+            if (token != null && handler.validateToken(token)){
                 logger.info("Token: {}", token);
-
                 String username = handler.getUsernameFrom(token);
-
                 UserDetails principal = userService.loadUserByUsername(username);
-
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         principal, null, principal.getAuthorities());
-
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-
             }
-        } catch (Exception e) {
+        } catch (Exception e){
             logger.error("User Authentication cannot be set: {}", e.getMessage());
         }
         filterChain.doFilter(request, response);

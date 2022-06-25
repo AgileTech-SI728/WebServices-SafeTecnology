@@ -12,54 +12,56 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Component
-public class JwtHandler implements Serializable {
-    private static final Logger logger = LoggerFactory.getLogger(JwtHandler.class);
+public class JwtHandler {
+    private static final Logger
+        logger = LoggerFactory.getLogger(JwtHandler.class);
 
-    @Value("7")
-    private int expirationDays;
+        @Value("WriteHereYouSecretStringForTokenSigningCredencials")
+        private String secret;
 
-    @Value("WriteHereYourSecretStringForTokenSigningCredentials")
-    private String secret;
+        @Value("7")
+        private int expirationDays;
 
-    public String generateToken(Authentication authentication){
+        public String generateToken(Authentication authentication){
+            String subject = ((UserDetailsImpl)
+                    authentication.getPrincipal()).getUsername();
 
-        String subject = ((UserDetailsImpl) authentication.getPrincipal()).getUsername();
+            Date issuedAt = new Date();
+            Date expiration = DateUtils.addDays(issuedAt, expirationDays);
 
-        Date issuedAt = new Date();
-        Date expiration = DateUtils.addDays(issuedAt, expirationDays);
-
-        return Jwts.builder()
-                .setSubject(subject)
-                .setIssuedAt(issuedAt)
-                .setExpiration(expiration)
-                .signWith(SignatureAlgorithm.HS256,secret)
-                .compact();
-    }
-
-    public String getUsernameFrom(String token){
-        return Jwts.parser()
-                .setSigningKey(secret)
-                .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
-    }
-
-    public boolean validateToken(String token){
-        try {
-            Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
-            return true;
-        } catch (SignatureException e){
-            logger.error("Invalid JSON WEB TOKEN SIGNATURE: {}", e.getMessage());
-        } catch (MalformedJwtException e) {
-            logger.error("Invalid JSON WEB TOKEN: {}", e.getMessage());
-        } catch (ExpiredJwtException e) {
-            logger.error("JSON WEB TOKEN is expired: {}", e.getMessage());
-        } catch (UnsupportedJwtException e){
-            logger.error("JSON WEB TOKEN is unsupported: {}", e.getMessage());
-        } catch (IllegalArgumentException e){
-            logger.error("JSON WEB TOKEN claims string is empty: {}", e.getMessage());
+            return Jwts.builder()
+                    .setSubject(subject)
+                    .setIssuedAt(issuedAt)
+                    .setExpiration(expiration)
+                    .signWith(SignatureAlgorithm.HS256, secret)
+                    .compact();
         }
-        return false;
-    }
-}
 
+        public String getUsernameFrom(String token){
+            return  Jwts.parser()
+                    .setSigningKey(secret)
+                    .parseClaimsJws(token)
+                    .getBody()
+                    .getSubject();
+        }
+
+        public boolean validateToken(String token){
+            try{
+                Jwts.parser()
+                        .setSigningKey(secret)
+                        .parseClaimsJws(token);
+                return true;
+            }catch (SignatureException e){
+                logger.error("Invalid JSON Web Token Signature: {}", e.getMessage());
+            }catch (MalformedJwtException e){
+                logger.error("Invalid JSON Web Token: {}", e.getMessage());
+            }catch (ExpiredJwtException e){
+                logger.error("JSON Web Token is expired: {}", e.getMessage());
+            }catch (UnsupportedJwtException e){
+                logger.error("JSON Web Token is unsupported: {}", e.getMessage());
+            }catch (IllegalArgumentException e){
+                logger.error("JSON Web Token claims string is empty: {}", e.getMessage());
+            }
+            return false;
+        }
+}

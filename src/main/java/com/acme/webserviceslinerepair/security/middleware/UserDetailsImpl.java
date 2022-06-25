@@ -17,9 +17,11 @@ import java.util.stream.Collectors;
 @Getter
 @AllArgsConstructor
 public class UserDetailsImpl implements UserDetails {
+
     private Long id;
     private String username;
     private String email;
+
     @JsonIgnore
     private String password;
 
@@ -36,18 +38,18 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     @Override
-    public boolean isEnabled(){
-        return true;
-    }
-
-    @Override
     public boolean isCredentialsNonExpired(){
         return true;
     }
 
     @Override
+    public boolean isEnabled(){
+        return true;
+    }
+
+    @Override
     public boolean equals(Object other){
-        if (this == other)
+        if(this == other)
             return true;
         if (other == null || getClass() != other.getClass())
             return false;
@@ -59,10 +61,10 @@ public class UserDetailsImpl implements UserDetails {
         List<GrantedAuthority> authorities = user.getRoles().stream().map(
                         role -> new SimpleGrantedAuthority(role.getName().name()))
                 .collect(Collectors.toList());
-        return new UserDetailsImpl(user.getId(), user.getUsername(),
-                user.getEmail(), user.getPassword(), authorities);
-
+        return new UserDetailsImpl(user.getId(),
+                user.getUsername(), user.getEmail(),
+                user.getPassword(), authorities);
     }
+
+
 }
-
-
