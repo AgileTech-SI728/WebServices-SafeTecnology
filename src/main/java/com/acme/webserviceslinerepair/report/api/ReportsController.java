@@ -32,7 +32,7 @@ public class ReportsController {
 
     @Operation(summary = "Get All Reports", description = "Get All Reports")
     @GetMapping("reports")
-    @PreAuthorize("hasRole('CLIENT') or hasRole('TECHNICIAN') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('TECHNICIAN') or hasRole('ADMIN')")
     public List<ReportResource> getAll(){
         return mapper.toResource(reportService.getAll());
     }

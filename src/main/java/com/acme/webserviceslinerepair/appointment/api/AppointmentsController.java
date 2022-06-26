@@ -31,41 +31,41 @@ public class AppointmentsController {
     }
     @Operation(summary = "Get All Appointments", description = "Get All Appointments")
     @GetMapping("appointments")
-    @PreAuthorize("hasRole('CLIENT') or hasRole('TECHNICIAN') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('TECHNICIAN') or hasRole('ADMIN')")
     public List<AppointmentResource> getAll(){
         return mapper.toResource(appointmentService.getAll());
     }
 
     @Operation(summary = "Get Appointment by Id", description = "Get Appointment by Id")
     @GetMapping("{appointmentId}")
-    @PreAuthorize("hasRole('CLIENT') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public AppointmentResource getAppointmentById(@PathVariable Long appointmentId){
         return mapper.toResource(appointmentService.getById(appointmentId));
     }
     @Operation(summary = "Get Appointments by ClientId", description = "Get All Appointments by ClientId")
     @GetMapping("{clientId}/appointments")
-    @PreAuthorize("hasRole('CLIENT') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public List<AppointmentResource> getAppointmentsByClientId(@PathVariable Long clientId){
         return mapper.toResource(appointmentService.getByClientId(clientId));
     }
 
     @Operation(summary = "Create New Appointment", description = "Create New Appointment")
     @PostMapping("{clientId}/{applianceModelId}/appointments")
-    @PreAuthorize("hasRole('CLIENT') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public AppointmentResource createAppointment(@RequestBody CreateAppointmentResource model, @PathVariable Long clientId, @PathVariable Long applianceModelId){
         return mapper.toResource(appointmentService.create(mapper.toModel(model), clientId, applianceModelId));
     }
 
     @Operation(summary = "Update Appointment", description = "Update Appointment")
     @PutMapping("{appointmentId}")
-    @PreAuthorize("hasRole('CLIENT') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public AppointmentResource updateAppointment(@PathVariable Long appointmentId, @RequestBody UpdateAppointmentResource model){
         return mapper.toResource(appointmentService.update(appointmentId, mapper.toModel(model)));
     }
 
     @Operation(summary = "Delete Appointment", description = "Delete Appointment")
     @DeleteMapping("{appointmentId}")
-    @PreAuthorize("hasRole('CLIENT') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<?> deleteAppointment(@PathVariable Long appointmentId){
         return appointmentService.delete(appointmentId);
     }
