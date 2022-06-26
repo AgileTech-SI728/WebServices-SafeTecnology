@@ -30,7 +30,7 @@ public class ApplianceModelsController {
         this.mapper = mapper;
     }
     @Operation(summary = "Get All ApplianceModels", description = "Get All ApplianceModels")
-    @PreAuthorize("hasRole('USER') or hasRole('TECHNICIAN') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('CLIENT') or hasRole('TECHNICIAN') or hasRole('ADMIN')")
     @GetMapping("applianceModels")
     public List<ApplianceModelResource> getAll(){
         return mapper.toResource(applianceModelService.getAll());
@@ -38,32 +38,32 @@ public class ApplianceModelsController {
 
     @Operation(summary = "Get ApplianceModel by Id", description = "Get ApplianceModel by Id")
     @GetMapping("{applianceModelId}")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('CLIENT') or hasRole('ADMIN')")
     public ApplianceModelResource getApplianceModelById(@PathVariable Long applianceModelId){
         return mapper.toResource(applianceModelService.getById(applianceModelId));
     }
     @Operation(summary = "Get ApplianceModels by ClientId", description = "Get All ApplianceModels by ClientId")
     @GetMapping("{clientId}/applianceModels")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('CLIENT') or hasRole('ADMIN')")
     public List<ApplianceModelResource> getApplianceModelsByClientId(@PathVariable Long clientId){
         return mapper.toResource(applianceModelService.getByClientId(clientId));
     }
 
     @Operation(summary = "Create New ApplianceModel", description = "Create New ApplianceModel")
     @PostMapping("{clientId}/applianceModels")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('CLIENT') or hasRole('ADMIN')")
     public ApplianceModelResource createApplianceModel(@RequestBody CreateApplianceModelResource resource, @PathVariable Long clientId){
         return mapper.toResource(applianceModelService.create(mapper.toModel(resource), clientId));
     }
     @Operation(summary = "Update ApplianceModel", description = "Update ApplianceModel")
     @PutMapping("{applianceModelId}")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('CLIENT') or hasRole('ADMIN')")
     public ApplianceModelResource updateApplianceModel(@PathVariable Long applianceModelId, @RequestBody UpdateApplianceModelResource model){
         return mapper.toResource(applianceModelService.update(applianceModelId, mapper.toModel(model)));
     }
     @Operation(summary = "Delete ApplianceModel", description = "Delete ApplianceModel")
     @DeleteMapping("{applianceModelId}")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('CLIENT') or hasRole('ADMIN')")
     public ResponseEntity<?> deleteApplianceModel(@PathVariable Long applianceModelId){
         return applianceModelService.delete(applianceModelId);
     }
