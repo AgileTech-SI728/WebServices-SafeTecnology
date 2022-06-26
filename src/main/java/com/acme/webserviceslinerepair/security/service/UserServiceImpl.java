@@ -1,6 +1,5 @@
 package com.acme.webserviceslinerepair.security.service;
 
-import com.acme.webserviceslinerepair.client.domain.persistence.ClientRepository;
 import com.acme.webserviceslinerepair.security.domain.model.entity.Role;
 import com.acme.webserviceslinerepair.security.domain.model.entity.User;
 import com.acme.webserviceslinerepair.security.domain.model.enumeration.Roles;

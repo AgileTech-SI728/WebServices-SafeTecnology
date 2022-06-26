@@ -50,7 +50,7 @@ public class UserController {
     }
     @GetMapping("/auth/verify-token-user")
     @PreAuthorize("hasRole('USER')")
-    public boolean verifyTokenClient(){
+    public boolean verifyTokenUser(){
         return true;
     }
     @GetMapping("/auth/verify-token-technician")
