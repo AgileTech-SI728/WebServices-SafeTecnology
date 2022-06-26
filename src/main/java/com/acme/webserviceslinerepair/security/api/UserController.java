@@ -44,12 +44,12 @@ public class UserController {
     }
 
     @Operation(summary = "Get All Users", description = "Get All Users", tags = {"Users"})
-    @GetMapping
+    @GetMapping("/auth/get-all")
     public List<UserResource> getAllUsers(){
         return mapper.toResource(userService.getAll());
     }
-    @RequestMapping("/auth/verify-token-client")
-    @PreAuthorize("hasRole('CLIENT')")
+    @GetMapping("/auth/verify-token-user")
+    @PreAuthorize("hasRole('USER')")
     public boolean verifyTokenClient(){
         return true;
     }
