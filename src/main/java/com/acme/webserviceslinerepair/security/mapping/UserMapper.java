@@ -6,9 +6,6 @@ import com.acme.webserviceslinerepair.security.resource.UserResource;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.Converter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import com.acme.webserviceslinerepair.shared.mapping.EnhancedModelMapper;
 
 import java.io.Serializable;
