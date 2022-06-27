@@ -24,6 +24,11 @@ public class Client extends AuditModel {
     @NotNull
     @NotBlank
     @Size(max=100)
+    private String username;
+
+    @NotNull
+    @NotBlank
+    @Size(max=100)
     private String names;
 
     @NotNull
