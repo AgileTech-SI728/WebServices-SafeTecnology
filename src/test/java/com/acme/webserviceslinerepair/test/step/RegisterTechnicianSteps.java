@@ -40,11 +40,11 @@ public class RegisterTechnicianSteps {
         assertTrue(!getEndPoint.isEmpty());
     }
 
-    @And("I enter my own information like names {string}, lastNames {string}, email {string}, password {string}, address {string},cellPhoneNumber{string}")
-    public void iEnterMyOwnInformationLikeNamesNamesLastNamesLastNamesEmailEmailPasswordPasswordAddressAddressCellPhoneNumberCellPhoneNumber(String names, String lastNames, String email, String password, String address, String cellPhoneNumber) {
+    @And("I enter my own information like username {string},names {string}, lastNames {string}, email {string}, password {string}, address {string},cellPhoneNumber{string}")
+    public void iEnterMyOwnInformationLikeUsernameUsernameNamesNamesLastNamesLastNamesEmailEmailPasswordPasswordAddressAddressCellPhoneNumberCellPhoneNumber(String username,String names, String lastNames, String email, String password, String address, String cellPhoneNumber) {
         String technicianUrl = url + "/technicians";
 
-        Technician newTechnician = new Technician(technicianId, names, lastNames, email, password, address, cellPhoneNumber);
+        Technician newTechnician = new Technician(technicianId,username, names, lastNames, email, password, address, cellPhoneNumber);
         technician = restTemplate.postForObject(technicianUrl, newTechnician, Technician.class);
         log.info(technician.getId());
         assertNotNull(technician);
