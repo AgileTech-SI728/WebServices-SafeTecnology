@@ -50,7 +50,7 @@ public class ApplianceModelsController {
     }
 
     @Operation(summary = "Create New ApplianceModel", description = "Create New ApplianceModel")
-    @PostMapping("{clientId}")
+    @PostMapping
     @PreAuthorize("hasRole('CLIENT') or hasRole('ADMIN')")
     public ApplianceModelResource createApplianceModel(@RequestBody CreateApplianceModelResource resource, @PathVariable Long clientId){
         return mapper.toResource(applianceModelService.create(mapper.toModel(resource), clientId));
