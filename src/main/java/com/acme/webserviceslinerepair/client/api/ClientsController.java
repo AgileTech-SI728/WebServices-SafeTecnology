@@ -44,7 +44,7 @@ public class ClientsController {
         return mapper.toResource(clientService.getByNameAndLastName(names, lastNames));
     }
     @Operation(summary = "Get Client by Email", description = "Get Client by Email")
-    @GetMapping("{email}")
+    @GetMapping("email/{email}")
     @PreAuthorize("hasRole('CLIENT') or hasRole('ADMIN')")
     public ClientResource getClientByEmail(@PathVariable String email){
         return mapper.toResource(clientService.getByEmail(email));
