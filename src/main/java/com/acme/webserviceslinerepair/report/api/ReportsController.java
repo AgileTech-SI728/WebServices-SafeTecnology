@@ -31,7 +31,7 @@ public class ReportsController {
 
 
     @Operation(summary = "Get All Reports", description = "Get All Reports")
-    @GetMapping("reports")
+    @GetMapping
     @PreAuthorize("hasRole('CLIENT') or hasRole('TECHNICIAN') or hasRole('ADMIN')")
     public List<ReportResource> getAll(){
         return mapper.toResource(reportService.getAll());
@@ -49,7 +49,7 @@ public class ReportsController {
         return mapper.toResource(reportService.getByTechnicianId(technicianId));
     }
     @Operation(summary = "Create New Report", description = "Create New Report")
-    @PostMapping("{technicianId}/reports")
+    @PostMapping("{technicianId}")
     @PreAuthorize("hasRole('TECHNICIAN') or hasRole('ADMIN')")
     public ReportResource createReport(@RequestBody CreateReportResource resource, @PathVariable Long technicianId){
         return mapper.toResource(reportService.create(mapper.toModel(resource), technicianId));

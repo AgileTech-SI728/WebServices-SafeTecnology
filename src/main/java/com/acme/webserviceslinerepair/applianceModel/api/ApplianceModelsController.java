@@ -31,7 +31,7 @@ public class ApplianceModelsController {
     }
     @Operation(summary = "Get All ApplianceModels", description = "Get All ApplianceModels")
     @PreAuthorize("hasRole('CLIENT') or hasRole('TECHNICIAN') or hasRole('ADMIN')")
-    @GetMapping("applianceModels")
+    @GetMapping
     public List<ApplianceModelResource> getAll(){
         return mapper.toResource(applianceModelService.getAll());
     }
@@ -50,7 +50,7 @@ public class ApplianceModelsController {
     }
 
     @Operation(summary = "Create New ApplianceModel", description = "Create New ApplianceModel")
-    @PostMapping("{clientId}/applianceModels")
+    @PostMapping("{clientId}")
     @PreAuthorize("hasRole('CLIENT') or hasRole('ADMIN')")
     public ApplianceModelResource createApplianceModel(@RequestBody CreateApplianceModelResource resource, @PathVariable Long clientId){
         return mapper.toResource(applianceModelService.create(mapper.toModel(resource), clientId));

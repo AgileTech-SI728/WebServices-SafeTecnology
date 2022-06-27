@@ -30,7 +30,7 @@ public class AppointmentsController {
         this.mapper = mapper;
     }
     @Operation(summary = "Get All Appointments", description = "Get All Appointments")
-    @GetMapping("appointments")
+    @GetMapping
     @PreAuthorize("hasRole('CLIENT') or hasRole('TECHNICIAN') or hasRole('ADMIN')")
     public List<AppointmentResource> getAll(){
         return mapper.toResource(appointmentService.getAll());
@@ -50,7 +50,7 @@ public class AppointmentsController {
     }
 
     @Operation(summary = "Create New Appointment", description = "Create New Appointment")
-    @PostMapping("{clientId}/{applianceModelId}/appointments")
+    @PostMapping("{clientId}/{applianceModelId}")
     @PreAuthorize("hasRole('CLIENT') or hasRole('ADMIN')")
     public AppointmentResource createAppointment(@RequestBody CreateAppointmentResource model, @PathVariable Long clientId, @PathVariable Long applianceModelId){
         return mapper.toResource(appointmentService.create(mapper.toModel(model), clientId, applianceModelId));
