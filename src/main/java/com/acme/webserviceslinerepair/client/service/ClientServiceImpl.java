@@ -76,7 +76,8 @@ public class ClientServiceImpl implements ClientService {
             return clientRepository.findById(clientId)
                     .map(client->
                             clientRepository.save(
-                                    client.withNames(request.getNames())
+                                    client.withUsername(request.getUsername())
+                                            .withNames(request.getNames())
                                             .withLastNames(request.getLastNames())
                                             .withEmail(request.getEmail())
                                             .withPassword(request.getPassword())
