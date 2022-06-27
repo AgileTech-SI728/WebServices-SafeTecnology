@@ -25,6 +25,11 @@ public class Technician extends AuditModel {
     @NotNull
     @NotBlank
     @Size(max=50)
+    private String username;
+
+    @NotNull
+    @NotBlank
+    @Size(max=50)
     private String names;
 
     @NotNull
