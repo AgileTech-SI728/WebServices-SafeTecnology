@@ -32,7 +32,7 @@ public class ClientsController {
 
     @Operation(summary = "Get All Clients", description = "Get All Clients")
     @PreAuthorize("hasRole('CLIENT') or hasRole('TECHNICIAN') or hasRole('ADMIN')")
-    @GetMapping("clients")
+    @GetMapping
     public List<ClientResource> getAll(){
         return mapper.toResource(clientService.getAll());
     }
@@ -44,7 +44,7 @@ public class ClientsController {
         return mapper.toResource(clientService.getByNameAndLastName(names, lastNames));
     }
     @Operation(summary = "Get Client by Email", description = "Get Client by Email")
-    @GetMapping("clients/{email}")
+    @GetMapping("{email}")
     @PreAuthorize("hasRole('CLIENT') or hasRole('ADMIN')")
     public ClientResource getClientByEmail(@PathVariable String email){
         return mapper.toResource(clientService.getByEmail(email));
