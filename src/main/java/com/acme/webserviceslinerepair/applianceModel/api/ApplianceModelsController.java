@@ -43,7 +43,7 @@ public class ApplianceModelsController {
         return mapper.toResource(applianceModelService.getById(applianceModelId));
     }
     @Operation(summary = "Get ApplianceModels by ClientId", description = "Get All ApplianceModels by ClientId")
-    @GetMapping("{clientId}/applianceModels")
+    @GetMapping("{clientId})
     @PreAuthorize("hasRole('CLIENT') or hasRole('ADMIN')")
     public List<ApplianceModelResource> getApplianceModelsByClientId(@PathVariable Long clientId){
         return mapper.toResource(applianceModelService.getByClientId(clientId));

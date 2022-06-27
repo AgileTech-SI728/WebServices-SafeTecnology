@@ -34,6 +34,7 @@ public class ApplianceModel extends AuditModel {
 
     @NotNull
     @NotBlank
+    @Size(max=1000)
     private String imagePath;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
