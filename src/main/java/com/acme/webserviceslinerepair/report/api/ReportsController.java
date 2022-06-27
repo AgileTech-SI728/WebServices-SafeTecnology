@@ -49,7 +49,7 @@ public class ReportsController {
         return mapper.toResource(reportService.getByTechnicianId(technicianId));
     }
     @Operation(summary = "Create New Report", description = "Create New Report")
-    @PostMapping
+    @PostMapping("{technicianId}")
     @PreAuthorize("hasRole('TECHNICIAN') or hasRole('ADMIN')")
     public ReportResource createReport(@RequestBody CreateReportResource resource, @PathVariable Long technicianId){
         return mapper.toResource(reportService.create(mapper.toModel(resource), technicianId));

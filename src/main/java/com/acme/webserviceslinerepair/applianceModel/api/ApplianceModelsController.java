@@ -56,7 +56,7 @@ public class ApplianceModelsController {
         return mapper.toResource(applianceModelService.create(mapper.toModel(resource), clientId));
     }
     @Operation(summary = "Update ApplianceModel", description = "Update ApplianceModel")
-    @PutMapping("{applianceModelId}")
+    @PutMapping("{applianceModelId}/applianceModel")
     @PreAuthorize("hasRole('CLIENT') or hasRole('ADMIN')")
     public ApplianceModelResource updateApplianceModel(@PathVariable Long applianceModelId, @RequestBody UpdateApplianceModelResource model){
         return mapper.toResource(applianceModelService.update(applianceModelId, mapper.toModel(model)));
