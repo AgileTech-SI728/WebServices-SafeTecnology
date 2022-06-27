@@ -53,11 +53,11 @@ public class RegisterClientSteps {
         assertEquals("", message);
     }
 
-    @And("I enter my own information like names {string}, lastNames {string}, email {string}, password {string}, address {string},cellPhoneNumber{string},planType{string}")
-    public void iEnterMyOwnInformationLikeNamesNamesLastNamesLastNamesEmailEmailPasswordPasswordAddressAddressCellPhoneNumberCellPhoneNumberPlanTypePlanType(String names, String lastNames, String email, String password, String address, String cellPhoneNumber,String planType) {
+    @And("I enter my own information like username {string},names {string}, lastNames {string}, email {string}, password {string}, address {string},cellPhoneNumber{string},planType{string}")
+    public void iEnterMyOwnInformationLikeUsernameUsernameNamesNamesLastNamesLastNamesEmailEmailPasswordPasswordAddressAddressCellPhoneNumberCellPhoneNumberPlanTypePlanType(String username,String names, String lastNames, String email, String password, String address, String cellPhoneNumber,String planType) {
         String clientUrl = url + "/clients";
 
-        Client newClient = new Client(clientId, names, lastNames, email, password, address, cellPhoneNumber,planType);
+        Client newClient = new Client(clientId, username,names, lastNames, email, password, address, cellPhoneNumber,planType);
         client = restTemplate.postForObject(clientUrl, newClient, Client.class);
         log.info(client.getId());
         assertNotNull(client);
