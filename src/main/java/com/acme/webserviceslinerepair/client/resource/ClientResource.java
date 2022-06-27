@@ -10,6 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 public class ClientResource {
     private Long id;
+    private String username;
     private String names;
     private String lastNames;
     private String address;

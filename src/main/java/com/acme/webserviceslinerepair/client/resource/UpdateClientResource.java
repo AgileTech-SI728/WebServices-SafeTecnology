@@ -10,6 +10,11 @@ import javax.validation.constraints.Size;
 @Setter
 public class UpdateClientResource {
     private Long id;
+
+    @NotNull
+    @NotBlank
+    private String username;
+
     @NotNull
     @NotBlank
     private String names;
