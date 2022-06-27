@@ -21,6 +21,6 @@ public class CreateApplianceModelResource{
 
     @NotNull
     @NotBlank
-    private String imagePath;
+    private String urlToImage;
 
 }

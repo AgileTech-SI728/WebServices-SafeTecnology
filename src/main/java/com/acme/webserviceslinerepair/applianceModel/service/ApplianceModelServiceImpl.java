@@ -67,7 +67,7 @@ public class ApplianceModelServiceImpl implements ApplianceModelService {
                 .map(applianceModel -> applianceModelRepository.save(
                         applianceModel.withName(request.getName())
                                 .withModel(request.getModel())
-                                .withImagePath(request.getImagePath())
+                                .withUrlToImage(request.getUrlToImage())
                 )).orElseThrow(()-> new ResourceNotFoundException(ENTITY, applianceModelId));
     }catch (Exception e){
             throw new ResourceValidationException(ENTITY, "An error occurred while updating applianceModel");

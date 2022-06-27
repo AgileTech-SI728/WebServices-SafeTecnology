@@ -35,7 +35,7 @@ public class ApplianceModel extends AuditModel {
     @NotNull
     @NotBlank
     @Size(max=1000)
-    private String imagePath;
+    private String urlToImage;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "client_id", nullable = false)

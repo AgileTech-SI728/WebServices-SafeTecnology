@@ -12,7 +12,7 @@ public class ApplianceModelResource {
     private Long id;
     private String name;
     private String model;
-    private String imagePath;
+    private String urlToImage;
     private ClientResource client;
 }
 

@@ -19,6 +19,6 @@ public class UpdateApplianceModelResource {
 
     @NotNull
     @NotBlank
-    private String imagePath;
+    private String urlToImage;
 
 }
