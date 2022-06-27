@@ -13,6 +13,10 @@ import javax.validation.constraints.Size;
 public class CreateTechnicianResource {
     @NotNull
     @NotBlank
+    private String username;
+
+    @NotNull
+    @NotBlank
     private String names;
 
     @NotNull

@@ -9,6 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 public class TechnicianResource {
     private Long id;
+    private String username;
     private String names;
     private String lastNames;
     private String address;
