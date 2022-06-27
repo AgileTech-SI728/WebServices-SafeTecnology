@@ -31,7 +31,7 @@ public class TechniciansController {
     }
 
     @Operation(summary = "Get All Technicians", description = "Get All Technicians")
-    @GetMapping("technicians")
+    @GetMapping
     @PreAuthorize("hasRole('CLIENT') or hasRole('TECHNICIAN') or hasRole('ADMIN')")
     public List<TechnicianResource> getAll(){
         return mapper.toResource(technicianService.getAll());
