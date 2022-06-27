@@ -71,7 +71,8 @@ public class TechnicianServiceImpl implements TechnicianService {
             return technicianRepository.findById(technicianId)
                     .map(technician->
                             technicianRepository.save(
-                                    technician.withNames(request.getNames())
+                                    technician.withUsername(request.getUsername())
+                                            .withNames(request.getNames())
                                             .withLastNames(request.getLastNames())
                                             .withEmail(request.getEmail())
                                             .withPassword(request.getPassword())
