@@ -10,7 +10,6 @@ import javax.validation.constraints.Size;
 @Setter
 @Getter
 public class UpdateReportResource {
-    private Long id;
     @NotNull
     @NotBlank
     @Size(max=600)

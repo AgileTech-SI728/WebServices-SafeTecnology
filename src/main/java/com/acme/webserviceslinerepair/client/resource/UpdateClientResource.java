@@ -9,8 +9,6 @@ import javax.validation.constraints.Size;
 @Getter
 @Setter
 public class UpdateClientResource {
-    private Long id;
-
     @NotNull
     @NotBlank
     private String username;

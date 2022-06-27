@@ -8,7 +8,6 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 public class UpdateApplianceModelResource {
-    private Long id;
     @NotNull
     @NotBlank
     private String name;
