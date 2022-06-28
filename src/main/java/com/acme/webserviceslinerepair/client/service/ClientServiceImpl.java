@@ -37,8 +37,8 @@ public class ClientServiceImpl implements ClientService {
                 .orElseThrow(()-> new ResourceNotFoundException(ENTITY, clientId));
     }
     @Override
-    public Client getByEmail(String email){
-        return clientRepository.findByEmail(email);
+    public Client getByUsername(String username){
+        return clientRepository.findByUsername(username);
     }
     @Override
     public Page<Client> getAll(Pageable pageable) {

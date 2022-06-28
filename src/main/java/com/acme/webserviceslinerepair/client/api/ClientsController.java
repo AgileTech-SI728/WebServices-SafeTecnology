@@ -43,11 +43,11 @@ public class ClientsController {
     public List<ClientResource> getClientByNameAndLastName(@PathVariable String names, @PathVariable String lastNames){
         return mapper.toResource(clientService.getByNameAndLastName(names, lastNames));
     }
-    @Operation(summary = "Get Client by Email", description = "Get Client by Email")
-    @GetMapping("email/{email}")
+    @Operation(summary = "Get Client by Username", description = "Get Client by Username")
+    @GetMapping("username/{username}")
     @PreAuthorize("hasRole('CLIENT') or hasRole('ADMIN')")
-    public ClientResource getClientByEmail(@PathVariable String email){
-        return mapper.toResource(clientService.getByEmail(email));
+    public ClientResource getClientByUsername(@PathVariable String username){
+        return mapper.toResource(clientService.getByUsername(username));
     }
     @Operation(summary = "Get Client by Id", description = "Get Client by Id")
     @GetMapping("{clientId}")

@@ -10,7 +10,7 @@ import java.util.List;
 public interface ClientService {
     List<Client> getAll();
     Client getById(Long clientId);
-    Client getByEmail(String email);
+    Client getByUsername(String username);
     Page<Client> getAll(Pageable pageable);
     List<Client> getByNameAndLastName(String names, String lastNames);
     Client create(Client client);
