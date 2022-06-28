@@ -41,6 +41,11 @@ public class TechnicianServiceImpl implements TechnicianService {
         return technicianRepository.findAll(pageable);
     }
 
+    @Override
+    public Technician getByUsername(String username){
+        return technicianRepository.findByUsername(username);
+    }
+
 
     @Override
     public List<Technician> getByNameAndLastName(String names, String lastNames){

@@ -1,5 +1,6 @@
 package com.acme.webserviceslinerepair.technician.api;
 
+
 import com.acme.webserviceslinerepair.technician.domain.service.TechnicianService;
 import com.acme.webserviceslinerepair.technician.mapping.TechnicianMapper;
 import com.acme.webserviceslinerepair.technician.resource.CreateTechnicianResource;
@@ -48,6 +49,12 @@ public class TechniciansController {
     @PreAuthorize("hasRole('TECHNICIAN') or hasRole('ADMIN')")
     public TechnicianResource getTechnicianById(@PathVariable Long technicianId){
         return mapper.toResource(technicianService.getById(technicianId));
+    }
+    @Operation(summary = "Get Technician by Username", description = "Get Technician by Username")
+    @GetMapping("username/{username}")
+    @PreAuthorize("hasRole('TECHNICIAN') or hasRole('ADMIN')")
+    public TechnicianResource getTechnicianByUsername(@PathVariable String username){
+        return mapper.toResource(technicianService.getByUsername(username));
     }
     @Operation(summary = "Create New Technician", description = "Create New Technician")
     @PostMapping

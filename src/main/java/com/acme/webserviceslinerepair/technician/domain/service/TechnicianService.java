@@ -12,6 +12,7 @@ public interface TechnicianService {
     List<Technician> getAll();
     Technician getById(Long technicianId);
     Page<Technician> getAll(Pageable pageable);
+    Technician getByUsername(String username);
     List<Technician> getByNameAndLastName(String names, String lastNames);
     Technician create(Technician technician);
     Technician update(Long technicianId, Technician technician);

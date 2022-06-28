@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface TechnicianRepository extends JpaRepository<Technician, Long> {
 
-    Technician findByEmail(String email);
+    Technician findByUsername(String username);
     List<Technician> findByNamesAndLastNamesContaining(String names, String lastNames);
 
 }
