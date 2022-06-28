@@ -38,13 +38,13 @@ public class AppointmentsController {
 
     @Operation(summary = "Get Appointment by Id", description = "Get Appointment by Id")
     @GetMapping("{appointmentId}")
-    @PreAuthorize("hasRole('CLIENT') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('CLIENT') or hasRole('TECHNICIAN') or hasRole('ADMIN')")
     public AppointmentResource getAppointmentById(@PathVariable Long appointmentId){
         return mapper.toResource(appointmentService.getById(appointmentId));
     }
     @Operation(summary = "Get Appointments by ClientId", description = "Get All Appointments by ClientId")
     @GetMapping("{clientId}/appointments")
-    @PreAuthorize("hasRole('CLIENT') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('CLIENT') or hasRole('TECHNICIAN') or hasRole('ADMIN')")
     public List<AppointmentResource> getAppointmentsByClientId(@PathVariable Long clientId){
         return mapper.toResource(appointmentService.getByClientId(clientId));
     }
@@ -65,7 +65,7 @@ public class AppointmentsController {
 
     @Operation(summary = "Delete Appointment", description = "Delete Appointment")
     @DeleteMapping("{appointmentId}")
-    @PreAuthorize("hasRole('CLIENT') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('CLIENT') or hasRole('TECHNICIAN')  or hasRole('ADMIN')")
     public ResponseEntity<?> deleteAppointment(@PathVariable Long appointmentId){
         return appointmentService.delete(appointmentId);
     }
