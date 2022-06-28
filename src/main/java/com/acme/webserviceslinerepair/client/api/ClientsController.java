@@ -51,7 +51,7 @@ public class ClientsController {
     }
     @Operation(summary = "Get Client by Id", description = "Get Client by Id")
     @GetMapping("{clientId}")
-    @PreAuthorize("hasRole('CLIENT') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('CLIENT') or hasRole('TECHNICIAN')or hasRole('ADMIN')")
     public ClientResource getClientById(@PathVariable Long clientId){
         return mapper.toResource(clientService.getById(clientId));
     }
