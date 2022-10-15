@@ -54,10 +54,10 @@ public class AppointmentsController {
     }
 
     @Operation(summary = "Create New Appointment", description = "Create New Appointment")
-    @PostMapping("{clientId}/{applianceModelId}")
+    @PostMapping("{clientId}/{technicianId}/{applianceModelId}")
     @PreAuthorize("hasRole('CLIENT')or hasRole('TECHNICIAN') or hasRole('ADMIN')")
     public AppointmentResource createAppointment(@RequestBody CreateAppointmentResource model, @PathVariable Long clientId,@PathVariable Long technicianId, @PathVariable Long applianceModelId){
-        return mapper.toResource(appointmentService.create(mapper.toModel(model), clientId,technicianId, applianceModelId));
+        return mapper.toResource(appointmentService.create(mapper.toModel(model), clientId, technicianId, applianceModelId));
     }
 
     @Operation(summary = "Update Appointment", description = "Update Appointment")
