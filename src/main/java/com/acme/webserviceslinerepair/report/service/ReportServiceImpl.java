@@ -90,13 +90,9 @@ public class ReportServiceImpl implements ReportService {
         if(appointment==null)
             throw new ResourceNotFoundException(ENTITY3, appointmentId);
 
-        try{
-            request.setTechnician(technician.get());
-            return reportRepository.save(request);
-        }
-        catch (Exception e){
-            throw new ResourceValidationException(ENTITY, "An error occurred while saving report");
-        }
+        request.setTechnician(technician.get());
+        request.setAppointment(appointment.get());
+        return reportRepository.save(request);
     }
 
     @Override
