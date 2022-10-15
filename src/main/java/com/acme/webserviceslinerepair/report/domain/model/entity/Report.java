@@ -49,7 +49,7 @@ public class Report extends AuditModel {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Technician technician;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "appointment_id", nullable = false)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Appointment appointment;
