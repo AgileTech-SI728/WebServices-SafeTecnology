@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -37,7 +38,7 @@ public class Appointment extends AuditModel {
     private String hour;
 
     @NotNull
-    @NotBlank
+    @AssertTrue
     private Boolean status;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

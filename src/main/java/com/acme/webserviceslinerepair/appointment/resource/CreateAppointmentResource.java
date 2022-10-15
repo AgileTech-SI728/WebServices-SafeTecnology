@@ -2,6 +2,7 @@ package com.acme.webserviceslinerepair.appointment.resource;
 
 import lombok.*;
 
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -25,7 +26,7 @@ public class CreateAppointmentResource {
     private String hour;
 
     @NotNull
-    @NotBlank
+    @AssertTrue
     private Boolean status;
 
 }
