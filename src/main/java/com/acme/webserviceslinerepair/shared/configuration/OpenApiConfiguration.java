@@ -16,11 +16,11 @@ public class OpenApiConfiguration {
             @Value("${documentation.application.version}") String applicationVersion) {
         return new OpenAPI()
                 .info(new Info()
-                        .title("LineRepair API")
+                        .title("SafeTecnology API")
                         .version(applicationVersion)
                         .description(applicationDescription)
-                        .termsOfService("https://acme-LineRepair.com/tos")
-                        .license(new License().name("Apache 2.0 License").url("https://acme-linerepair.com/license"))
+                        .termsOfService("https://acme-SafeTecnology.com/tos")
+                        .license(new License().name("Apache 2.0 License").url("https://acme-safetecnology.com/license"))
                         .contact(new Contact()
                                 .url("https://acme.studio")
                                 .name("ACME.studio")));
