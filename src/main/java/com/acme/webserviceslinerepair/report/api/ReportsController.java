@@ -29,7 +29,6 @@ public class ReportsController {
         this.mapper = mapper;
     }
 
-
     @Operation(summary = "Get All Reports", description = "Get All Reports")
     @GetMapping
     @PreAuthorize("hasRole('CLIENT') or hasRole('TECHNICIAN') or hasRole('ADMIN')")
@@ -38,41 +37,41 @@ public class ReportsController {
     }
     @Operation(summary = "Get Report by Id", description = "Get Report by Id")
     @GetMapping("{reportId}")
-    @PreAuthorize("hasRole('TECHNICIAN') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('CLIENT') or hasRole('TECHNICIAN') or hasRole('ADMIN')")
     public ReportResource getReportById(@PathVariable Long reportId){
         return mapper.toResource(reportService.getById(reportId));
     }
     @Operation(summary = "Get Report by TechnicianId", description = "Get All Report by TechnicianId")
     @GetMapping("{technicianId}/reports")
-    @PreAuthorize("hasRole('TECHNICIAN') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('CLIENT') or hasRole('TECHNICIAN') or hasRole('ADMIN')")
     public List<ReportResource> getReportsByTechnicianId(@PathVariable Long technicianId){
         return mapper.toResource(reportService.getByTechnicianId(technicianId));
     }
 
     @Operation(summary = "Get Report by AppointmentId", description = "Get All Report by AppointmentId")
     @GetMapping("{appointmentId}/reports")
-    @PreAuthorize("hasRole('TECHNICIAN') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('CLIENT') or hasRole('TECHNICIAN') or hasRole('ADMIN')")
     public List<ReportResource> getReportsByAppointmentId(@PathVariable Long appointmentId){
         return mapper.toResource(reportService.getByAppointmentId(appointmentId));
     }
 
     @Operation(summary = "Create New Report", description = "Create New Report")
     @PostMapping("{technicianId}/{appointmentId}")
-    @PreAuthorize("hasRole('TECHNICIAN') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('CLIENT') or hasRole('TECHNICIAN') or hasRole('ADMIN')")
     public ReportResource createReport(@RequestBody CreateReportResource resource, @PathVariable Long technicianId, @PathVariable Long appointmentId){
         return mapper.toResource(reportService.create(mapper.toModel(resource), technicianId,appointmentId));
     }
 
     @Operation(summary = "Update Report", description = "Update Report")
     @PutMapping("{reportId}")
-    @PreAuthorize("hasRole('TECHNICIAN') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('CLIENT') or hasRole('TECHNICIAN') or hasRole('ADMIN')")
     public ReportResource updateReport(@PathVariable Long reportId, @RequestBody UpdateReportResource model){
         return mapper.toResource(reportService.update(reportId, mapper.toModel(model)));
     }
 
     @Operation(summary = "Delete Report", description = "Delete Report")
     @DeleteMapping("{reportId}")
-    @PreAuthorize("hasRole('TECHNICIAN') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('CLIENT') or hasRole('TECHNICIAN') or hasRole('ADMIN')")
     public ResponseEntity<?> deleteReport(@PathVariable Long reportId){
         return reportService.delete(reportId);
     }
