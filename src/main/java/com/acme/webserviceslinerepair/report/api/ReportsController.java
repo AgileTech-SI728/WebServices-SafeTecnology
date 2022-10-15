@@ -48,11 +48,19 @@ public class ReportsController {
     public List<ReportResource> getReportsByTechnicianId(@PathVariable Long technicianId){
         return mapper.toResource(reportService.getByTechnicianId(technicianId));
     }
-    @Operation(summary = "Create New Report", description = "Create New Report")
-    @PostMapping("{technicianId}")
+
+    @Operation(summary = "Get Report by AppointmentId", description = "Get All Report by AppointmentId")
+    @GetMapping("{appointmentId}/reports")
     @PreAuthorize("hasRole('TECHNICIAN') or hasRole('ADMIN')")
-    public ReportResource createReport(@RequestBody CreateReportResource resource, @PathVariable Long technicianId){
-        return mapper.toResource(reportService.create(mapper.toModel(resource), technicianId));
+    public List<ReportResource> getReportsByAppointmentId(@PathVariable Long appointmentId){
+        return mapper.toResource(reportService.getByAppointmentId(appointmentId));
+    }
+
+    @Operation(summary = "Create New Report", description = "Create New Report")
+    @PostMapping("{technicianId}/{appointmentId}")
+    @PreAuthorize("hasRole('TECHNICIAN') or hasRole('ADMIN')")
+    public ReportResource createReport(@RequestBody CreateReportResource resource, @PathVariable Long technicianId, @PathVariable Long appointmentId){
+        return mapper.toResource(reportService.create(mapper.toModel(resource), technicianId,appointmentId));
     }
 
     @Operation(summary = "Update Report", description = "Update Report")

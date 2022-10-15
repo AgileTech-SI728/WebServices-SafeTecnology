@@ -12,7 +12,8 @@ public interface ReportService {
     Report getById(Long reportId);
     Page<Report> getAll(Pageable pageable);
     List<Report> getByTechnicianId(Long technicianId);
-    Report create(Report report, Long technicianId);
+    List<Report> getByAppointmentId(Long appointmentId);
+    Report create(Report report, Long technicianId, Long appointmentId);
     Report update(Long reportId, Report report);
     ResponseEntity<?> delete(Long reportId);
 }

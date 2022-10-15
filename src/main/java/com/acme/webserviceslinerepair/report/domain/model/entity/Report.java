@@ -1,5 +1,6 @@
 package com.acme.webserviceslinerepair.report.domain.model.entity;
 
+import com.acme.webserviceslinerepair.appointment.domain.model.entity.Appointment;
 import com.acme.webserviceslinerepair.shared.domain.model.AuditModel;
 import com.acme.webserviceslinerepair.technician.domain.model.entity.Technician;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -47,6 +48,11 @@ public class Report extends AuditModel {
     @JoinColumn(name = "technician_id", nullable = false)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Technician technician;
+
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "appointment_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private Appointment appointment;
 
 }
 

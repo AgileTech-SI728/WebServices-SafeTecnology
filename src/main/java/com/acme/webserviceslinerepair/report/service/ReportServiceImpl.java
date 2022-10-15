@@ -1,5 +1,7 @@
 package com.acme.webserviceslinerepair.report.service;
 
+import com.acme.webserviceslinerepair.appointment.domain.model.entity.Appointment;
+import com.acme.webserviceslinerepair.appointment.domain.persistence.AppointmentRepository;
 import com.acme.webserviceslinerepair.report.domain.model.entity.Report;
 import com.acme.webserviceslinerepair.report.domain.persistence.ReportRepository;
 import com.acme.webserviceslinerepair.report.domain.service.ReportService;
@@ -22,6 +24,7 @@ import java.util.Set;
 public class ReportServiceImpl implements ReportService {
     private final static String ENTITY = "Report";
     private final static String ENTITY2 = "Technician";
+    private final static String ENTITY3 = "Appointment";
     @Autowired
     private final Validator validator;
     @Autowired
@@ -30,10 +33,14 @@ public class ReportServiceImpl implements ReportService {
     @Autowired
     private final TechnicianRepository technicianRepository;
 
-    public ReportServiceImpl(Validator validator, ReportRepository reportRepository, TechnicianRepository technicianRepository) {
+    @Autowired
+    private final AppointmentRepository appointmentRepository;
+
+    public ReportServiceImpl(Validator validator, ReportRepository reportRepository, TechnicianRepository technicianRepository, AppointmentRepository appointmentRepository) {
         this.validator = validator;
         this.reportRepository = reportRepository;
         this.technicianRepository = technicianRepository;
+        this.appointmentRepository = appointmentRepository;
     }
 
     @Override
@@ -62,7 +69,15 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public Report create(Report request, Long technicianId){
+    public List<Report> getByAppointmentId(Long appointmentId){
+        var appointment = appointmentRepository.findById(appointmentId);
+        if(appointment==null)
+            throw new ResourceNotFoundException(ENTITY3, appointmentId);
+
+        return reportRepository.findByAppointmentId(appointmentId);
+    }
+    @Override
+    public Report create(Report request, Long technicianId, Long appointmentId){
         Set<ConstraintViolation<Report>> violations = validator.validate(request);
         if(!violations.isEmpty())
             throw new ResourceValidationException(ENTITY, violations);
@@ -70,6 +85,10 @@ public class ReportServiceImpl implements ReportService {
         var technician = technicianRepository.findById(technicianId);
         if(technician==null)
             throw new ResourceNotFoundException(ENTITY2, technicianId);
+
+        var appointment = appointmentRepository.findById(appointmentId);
+        if(appointment==null)
+            throw new ResourceNotFoundException(ENTITY3, appointmentId);
 
         try{
             request.setTechnician(technician.get());
