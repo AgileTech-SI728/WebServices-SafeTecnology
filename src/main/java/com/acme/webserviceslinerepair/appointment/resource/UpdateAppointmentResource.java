@@ -21,4 +21,8 @@ public class UpdateAppointmentResource {
     @NotBlank
     private String hour;
 
+    @NotNull
+    @NotBlank
+    private Boolean status;
+
 }

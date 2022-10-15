@@ -11,10 +11,11 @@ public interface AppointmentService {
     List<Appointment> getAll();
     Appointment getById(Long appointmentId);
     Page<Appointment> getAll(Pageable pageable);
-    Appointment create(Appointment appointment, Long clientId, Long applianceModelId);
+    Appointment create(Appointment appointment, Long clientId,Long technicianId, Long applianceModelId);
     Appointment update(Long appointmentId, Appointment appointment);
     ResponseEntity<?> delete(Long appointmentId);
     List<Appointment> getByClientId(Long clientId);
+    List<Appointment> getByTechnicianId(Long technicianId);
     Page<Appointment> getAllByClientId(Long clientId,Pageable pageable);
 
 }

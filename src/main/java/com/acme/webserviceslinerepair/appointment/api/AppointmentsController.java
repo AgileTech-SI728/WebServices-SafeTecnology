@@ -22,8 +22,6 @@ import java.util.List;
 public class AppointmentsController {
 
     private final AppointmentService appointmentService;
-
-
     private final AppointmentMapper mapper;
     public AppointmentsController(AppointmentService appointmentService, AppointmentMapper mapper){
         this.appointmentService = appointmentService;
@@ -48,17 +46,23 @@ public class AppointmentsController {
     public List<AppointmentResource> getAppointmentsByClientId(@PathVariable Long clientId){
         return mapper.toResource(appointmentService.getByClientId(clientId));
     }
+    @Operation(summary = "Get Appointments by TechnicianId", description = "Get All Appointments by TechnicianId")
+    @GetMapping("{technicianId}/appointments")
+    @PreAuthorize("hasRole('CLIENT') or hasRole('TECHNICIAN') or hasRole('ADMIN')")
+    public List<AppointmentResource> getAppointmentsByTechnicianId(@PathVariable Long technicianId){
+        return mapper.toResource(appointmentService.getByTechnicianId(technicianId));
+    }
 
     @Operation(summary = "Create New Appointment", description = "Create New Appointment")
     @PostMapping("{clientId}/{applianceModelId}")
-    @PreAuthorize("hasRole('CLIENT') or hasRole('ADMIN')")
-    public AppointmentResource createAppointment(@RequestBody CreateAppointmentResource model, @PathVariable Long clientId, @PathVariable Long applianceModelId){
-        return mapper.toResource(appointmentService.create(mapper.toModel(model), clientId, applianceModelId));
+    @PreAuthorize("hasRole('CLIENT')or hasRole('TECHNICIAN') or hasRole('ADMIN')")
+    public AppointmentResource createAppointment(@RequestBody CreateAppointmentResource model, @PathVariable Long clientId,@PathVariable Long technicianId, @PathVariable Long applianceModelId){
+        return mapper.toResource(appointmentService.create(mapper.toModel(model), clientId,technicianId, applianceModelId));
     }
 
     @Operation(summary = "Update Appointment", description = "Update Appointment")
     @PutMapping("{appointmentId}")
-    @PreAuthorize("hasRole('CLIENT') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('CLIENT')or hasRole('TECHNICIAN') or hasRole('ADMIN')")
     public AppointmentResource updateAppointment(@PathVariable Long appointmentId, @RequestBody UpdateAppointmentResource model){
         return mapper.toResource(appointmentService.update(appointmentId, mapper.toModel(model)));
     }

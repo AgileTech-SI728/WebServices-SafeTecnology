@@ -3,6 +3,7 @@ package com.acme.webserviceslinerepair.appointment.domain.model.entity;
 import com.acme.webserviceslinerepair.applianceModel.domain.model.entity.ApplianceModel;
 import com.acme.webserviceslinerepair.client.domain.model.entity.Client;
 import com.acme.webserviceslinerepair.shared.domain.model.AuditModel;
+import com.acme.webserviceslinerepair.technician.domain.model.entity.Technician;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
@@ -35,10 +36,19 @@ public class Appointment extends AuditModel {
     @NotBlank
     private String hour;
 
+    @NotNull
+    @NotBlank
+    private Boolean status;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "client_id", nullable = false)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Client client;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "technician_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private Technician technician;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "appliance_model_id", nullable = false)

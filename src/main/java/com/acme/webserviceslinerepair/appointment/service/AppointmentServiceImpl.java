@@ -7,6 +7,7 @@ import com.acme.webserviceslinerepair.appointment.domain.service.AppointmentServ
 import com.acme.webserviceslinerepair.client.domain.persistence.ClientRepository;
 import com.acme.webserviceslinerepair.shared.exception.ResourceNotFoundException;
 import com.acme.webserviceslinerepair.shared.exception.ResourceValidationException;
+import com.acme.webserviceslinerepair.technician.domain.persistence.TechnicianRepository;
 import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,7 +24,8 @@ import java.util.Set;
 public class AppointmentServiceImpl implements AppointmentService {
     private final static String ENTITY = "Appointment";
     private final static String ENTITY2 = "Client";
-    private final static String ENTITY3 = "ApplianceModel";
+    private final static String ENTITY3 = "Technician";
+    private final static String ENTITY4 = "ApplianceModel";
 
     private final Validator validator;
     @Autowired
@@ -31,14 +33,16 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Autowired
     private final ClientRepository clientRepository;
-
+    @Autowired
+    private final TechnicianRepository technicianRepository;
     @Autowired
     private final ApplianceModelRepository applianceModelRepository;
 
-    public AppointmentServiceImpl(Validator validator, AppointmentRepository appointmentRepository, ClientRepository clientRepository, ApplianceModelRepository applianceModelRepository) {
+    public AppointmentServiceImpl(Validator validator, AppointmentRepository appointmentRepository, ClientRepository clientRepository, TechnicianRepository technicianRepository, ApplianceModelRepository applianceModelRepository) {
         this.validator = validator;
         this.appointmentRepository = appointmentRepository;
         this.clientRepository = clientRepository;
+        this.technicianRepository = technicianRepository;
         this.applianceModelRepository = applianceModelRepository;
     }
 
@@ -59,7 +63,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public Appointment create(Appointment request, Long clientId, Long applianceModelId) {
+    public Appointment create(Appointment request, Long clientId,Long technicianId, Long applianceModelId) {
         Set<ConstraintViolation<Appointment>> violations = validator.validate(request);
 
         if (!violations.isEmpty())
@@ -69,11 +73,16 @@ public class AppointmentServiceImpl implements AppointmentService {
         if(client==null)
             throw new ResourceNotFoundException(ENTITY2, clientId);
 
+        var technician = technicianRepository.findById(technicianId);
+        if(technician==null)
+            throw new ResourceNotFoundException(ENTITY3, technicianId);
+
         var applianceModel = applianceModelRepository.findById(applianceModelId);
         if(applianceModel==null)
-            throw new ResourceNotFoundException(ENTITY3, applianceModelId);
+            throw new ResourceNotFoundException(ENTITY4, applianceModelId);
 
         request.setClient(client.get());
+        request.setTechnician(technician.get());
         request.setApplianceModel(applianceModel.get());
         return appointmentRepository.save(request);
     }
@@ -90,6 +99,7 @@ public class AppointmentServiceImpl implements AppointmentService {
                         appointment.withDateReserve(request.getDateReserve())
                                 .withDateAttention(request.getDateAttention())
                                 .withHour(request.getHour())
+                                .withStatus(request.getStatus())
                 )).orElseThrow(()-> new ResourceNotFoundException(ENTITY, appointmentId));
     }
 
@@ -109,6 +119,15 @@ public class AppointmentServiceImpl implements AppointmentService {
             throw new ResourceNotFoundException(ENTITY2, clientId);
 
         return appointmentRepository.findByClientId(clientId);
+    }
+
+    @Override
+    public List<Appointment> getByTechnicianId(Long technicianId) {
+        var technician = technicianRepository.findById(technicianId);
+        if(technician==null)
+            throw new ResourceNotFoundException(ENTITY3, technicianId);
+
+        return appointmentRepository.findByTechnicianId(technicianId);
     }
 
     @Override
