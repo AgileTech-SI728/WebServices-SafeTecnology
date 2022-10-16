@@ -41,13 +41,13 @@ public class AppointmentsController {
         return mapper.toResource(appointmentService.getById(appointmentId));
     }
     @Operation(summary = "Get Appointments by ClientId", description = "Get All Appointments by ClientId")
-    @GetMapping("{clientId}/appointments")
+    @GetMapping("{clientId}/clients/appointments")
     @PreAuthorize("hasRole('CLIENT') or hasRole('TECHNICIAN') or hasRole('ADMIN')")
     public List<AppointmentResource> getAppointmentsByClientId(@PathVariable Long clientId){
         return mapper.toResource(appointmentService.getByClientId(clientId));
     }
     @Operation(summary = "Get Appointments by TechnicianId", description = "Get All Appointments by TechnicianId")
-    @GetMapping("{technicianId}/appointments")
+    @GetMapping("{technicianId}/technicians/appointments")
     @PreAuthorize("hasRole('CLIENT') or hasRole('TECHNICIAN') or hasRole('ADMIN')")
     public List<AppointmentResource> getAppointmentsByTechnicianId(@PathVariable Long technicianId){
         return mapper.toResource(appointmentService.getByTechnicianId(technicianId));
