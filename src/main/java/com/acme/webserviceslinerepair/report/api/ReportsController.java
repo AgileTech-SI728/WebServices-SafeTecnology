@@ -42,14 +42,14 @@ public class ReportsController {
         return mapper.toResource(reportService.getById(reportId));
     }
     @Operation(summary = "Get Report by TechnicianId", description = "Get All Report by TechnicianId")
-    @GetMapping("{technicianId}/reports")
+    @GetMapping("{technicianId}/technicians/reports")
     @PreAuthorize("hasRole('CLIENT') or hasRole('TECHNICIAN') or hasRole('ADMIN')")
     public List<ReportResource> getReportsByTechnicianId(@PathVariable Long technicianId){
         return mapper.toResource(reportService.getByTechnicianId(technicianId));
     }
 
     @Operation(summary = "Get Report by AppointmentId", description = "Get All Report by AppointmentId")
-    @GetMapping("{appointmentId}/reports")
+    @GetMapping("{appointmentId}/appointments/reports")
     @PreAuthorize("hasRole('CLIENT') or hasRole('TECHNICIAN') or hasRole('ADMIN')")
     public List<ReportResource> getReportsByAppointmentId(@PathVariable Long appointmentId){
         return mapper.toResource(reportService.getByAppointmentId(appointmentId));
