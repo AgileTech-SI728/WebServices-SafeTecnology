@@ -1,0 +1,110 @@
+package com.acme.webserviceslinerepair.application.service;
+
+import com.acme.webserviceslinerepair.domain.model.Report;
+import com.acme.webserviceslinerepair.infrastructure.repositories.ReportRepository;
+import com.acme.webserviceslinerepair.infrastructure.service.ReportService;
+import com.acme.webserviceslinerepair.exception.ResourceNotFoundException;
+import com.acme.webserviceslinerepair.exception.ResourceValidationException;
+import com.acme.webserviceslinerepair.infrastructure.repositories.TechnicianRepository;
+import lombok.var;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
+import java.util.List;
+import java.util.Set;
+
+@Service
+public class ReportServiceImpl implements ReportService {
+    private final static String ENTITY = "Report";
+    private final static String ENTITY2 = "Technician";
+    @Autowired
+    private final Validator validator;
+    @Autowired
+    private final ReportRepository reportRepository;
+
+    @Autowired
+    private final TechnicianRepository technicianRepository;
+
+    public ReportServiceImpl(Validator validator, ReportRepository reportRepository, TechnicianRepository technicianRepository) {
+        this.validator = validator;
+        this.reportRepository = reportRepository;
+        this.technicianRepository = technicianRepository;
+    }
+
+    @Override
+    public List<Report> getAll(){
+        return reportRepository.findAll();
+    }
+
+    @Override
+    public Report getById(Long reportId){
+        return reportRepository.findById(reportId)
+                .orElseThrow(()-> new ResourceNotFoundException(ENTITY, reportId));
+    }
+
+    @Override
+    public Page<Report> getAll(Pageable pageable) {
+        return reportRepository.findAll(pageable);
+    }
+
+    @Override
+    public List<Report> getByTechnicianId(Long technicianId){
+        var technician = technicianRepository.findById(technicianId);
+        if(technician==null)
+            throw new ResourceNotFoundException(ENTITY2, technicianId);
+
+        return reportRepository.findByTechnicianId(technicianId);
+    }
+
+    @Override
+    public Report create(Report request, Long technicianId){
+        Set<ConstraintViolation<Report>> violations = validator.validate(request);
+        if(!violations.isEmpty())
+            throw new ResourceValidationException(ENTITY, violations);
+
+        var technician = technicianRepository.findById(technicianId);
+        if(technician==null)
+            throw new ResourceNotFoundException(ENTITY2, technicianId);
+
+        try{
+            request.setTechnician(technician.get());
+            return reportRepository.save(request);
+        }
+        catch (Exception e){
+            throw new ResourceValidationException(ENTITY, "An error occurred while saving report");
+        }
+    }
+
+    @Override
+    public Report update(Long reportId, Report request){
+        Set<ConstraintViolation<Report>> violations = validator.validate(request);
+        if(!violations.isEmpty())
+            throw new ResourceValidationException(ENTITY, violations);
+        try{
+            return reportRepository.findById(reportId)
+                    .map(report -> reportRepository.save(
+                            report.withObservation(request.getObservation())
+                                    .withDiagnosis(request.getDiagnosis())
+                                    .withRepairDescription(request.getRepairDescription())
+                                    .withDate(request.getDate())
+                                    .withApplianceInfo(request.getApplianceInfo())
+                    )).orElseThrow(()-> new ResourceNotFoundException(ENTITY, reportId));
+        }catch (Exception e){
+            throw new ResourceValidationException(ENTITY, "An error occurred while updating Report");
+        }
+    }
+    @Override
+    public ResponseEntity<?> delete(Long reportId) {
+        return reportRepository.findById(reportId).map(report -> {
+            reportRepository.delete(report);
+                    return ResponseEntity.ok().build();
+                }
+        ).orElseThrow(() -> new ResourceNotFoundException(ENTITY, reportId));
+    }
+
+}

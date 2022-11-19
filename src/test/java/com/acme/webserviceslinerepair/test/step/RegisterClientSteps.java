@@ -1,7 +1,8 @@
 package com.acme.webserviceslinerepair.test.step;
 
 
-import com.acme.webserviceslinerepair.client.domain.model.entity.Client;
+import com.acme.webserviceslinerepair.domain.model.Client;
+import com.acme.webserviceslinerepair.domain.values.FullName;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -57,7 +58,7 @@ public class RegisterClientSteps {
     public void iEnterMyOwnInformationLikeNamesNamesLastNamesLastNamesEmailEmailPasswordPasswordAddressAddressCellPhoneNumberCellPhoneNumberPlanTypePlanType(String names, String lastNames, String email, String password, String address, String cellPhoneNumber,String planType) {
         String clientUrl = url + "/clients";
 
-        Client newClient = new Client(clientId, names, lastNames, email, password, address, cellPhoneNumber,planType);
+        Client newClient = new Client(clientId,new FullName(), email, password, address, cellPhoneNumber,planType);
         client = restTemplate.postForObject(clientUrl, newClient, Client.class);
         log.info(client.getId());
         assertNotNull(client);

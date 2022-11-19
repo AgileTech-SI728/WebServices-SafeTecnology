@@ -1,12 +1,10 @@
 package com.acme.webserviceslinerepair.shared.mapping;
 
-import com.acme.webserviceslinerepair.applianceModel.mapping.ApplianceModelMapper;
-import com.acme.webserviceslinerepair.appointment.mapping.AppointmentMapper;
-import com.acme.webserviceslinerepair.client.mapping.ClientMapper;
-import com.acme.webserviceslinerepair.report.mapping.ReportMapper;
-import com.acme.webserviceslinerepair.security.mapping.RoleMapper;
-import com.acme.webserviceslinerepair.security.mapping.UserMapper;
-import com.acme.webserviceslinerepair.technician.mapping.TechnicianMapper;
+import com.acme.webserviceslinerepair.infrastructure.mapping.ApplianceModelMapper;
+import com.acme.webserviceslinerepair.infrastructure.mapping.AppointmentMapper;
+import com.acme.webserviceslinerepair.infrastructure.mapping.ClientMapper;
+import com.acme.webserviceslinerepair.infrastructure.mapping.ReportMapper;
+import com.acme.webserviceslinerepair.infrastructure.mapping.TechnicianMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -15,16 +13,6 @@ public class MappingConfiguration {
     @Bean
     public EnhancedModelMapper modelMapper() {
         return new EnhancedModelMapper();
-    }
-
-    @Bean
-    public UserMapper userMapper() {
-        return new UserMapper();
-    }
-
-    @Bean
-    public RoleMapper roleMapper() {
-        return new RoleMapper();
     }
 
     @Bean

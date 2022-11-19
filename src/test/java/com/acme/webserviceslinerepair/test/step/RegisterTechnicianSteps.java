@@ -1,7 +1,8 @@
 package com.acme.webserviceslinerepair.test.step;
 
-import com.acme.webserviceslinerepair.client.domain.model.entity.Client;
-import com.acme.webserviceslinerepair.technician.domain.model.entity.Technician;
+import com.acme.webserviceslinerepair.domain.model.Client;
+import com.acme.webserviceslinerepair.domain.model.Technician;
+import com.acme.webserviceslinerepair.domain.values.FullName;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -44,7 +45,7 @@ public class RegisterTechnicianSteps {
     public void iEnterMyOwnInformationLikeNamesNamesLastNamesLastNamesEmailEmailPasswordPasswordAddressAddressCellPhoneNumberCellPhoneNumber(String names, String lastNames, String email, String password, String address, String cellPhoneNumber) {
         String technicianUrl = url + "/technicians";
 
-        Technician newTechnician = new Technician(technicianId, names, lastNames, email, password, address, cellPhoneNumber);
+        Technician newTechnician = new Technician(technicianId, new FullName(), email, password, address, cellPhoneNumber);
         technician = restTemplate.postForObject(technicianUrl, newTechnician, Technician.class);
         log.info(technician.getId());
         assertNotNull(technician);
