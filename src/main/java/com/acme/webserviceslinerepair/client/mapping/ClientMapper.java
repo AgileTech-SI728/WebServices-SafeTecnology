@@ -26,7 +26,7 @@ public class ClientMapper implements Serializable {
     }
 
     public Client toModel(CreateClientResource resource){
-        return mapper.map(resource, Client.class);
+        return mapper.map(resource , Client.class);
     }
 
     public Client toModel(UpdateClientResource resource){
